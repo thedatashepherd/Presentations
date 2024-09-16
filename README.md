@@ -10,8 +10,8 @@
   * SQL Saturday Baton Rouge
 * August 2024
   * SQL Saturday Albany
-  * Data Saturday Columbus
   * Austin Texas Power BI and Fabric User Group
   * Nashville Modern Excel and Power BI User Group
+  * Data Saturday Columbus
 * September 2024
   * SQL Saturday San Diego
