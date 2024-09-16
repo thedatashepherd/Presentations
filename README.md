@@ -1,6 +1,6 @@
 # Presentations
 
-## My Presentations from various conferences including SQL Saturdays around the United States.
+## My Presentations from conferences and user groups.
 
 * April 2024
   * Nashville Modern Excel and Power BI User Group
