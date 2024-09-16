@@ -3,7 +3,7 @@
 ## My Presentations from conferences and user groups.
 
 * April 2024
-  * Nashville Modern Excel and Power BI User Group
+  * [Nashville Modern Excel and Power BI User Group](https://github.com/thedaxshepherd/Presentations/blob/main/Events/UserGroups/2024/April/ExcelPowerBI/Nash2024_DataModeling_ExcelPowerBI.pdf)
 * May 2024
   *  SQL Saturday Jacksonville
 * July 2024
