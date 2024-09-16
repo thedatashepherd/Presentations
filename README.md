@@ -9,7 +9,7 @@
 * July 2024
   * [SQL Saturday Baton Rouge](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/July/BatonRouge/BR24_PowerBI-ThisIsTheWay.pdf)
 * August 2024
-  * SQL Saturday Albany
+  * SQL Saturday Albany:
      * [Power Up Fabric](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/August/Albany/1.PowerUpFabric/Albany2024_PowerUpFabric.pdf)
      * [Hard Lessons Blogging](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/August/Albany/2.LessonsAboutBlogging/Albany2024_Blog.pdf)
   * [Austin Texas Power BI and Fabric User Group](https://github.com/thedaxshepherd/Presentations/blob/main/Events/UserGroups/2024/August/AustinPowerBI_Fabric/Austin2024_PowerUpFabric.pdf)
