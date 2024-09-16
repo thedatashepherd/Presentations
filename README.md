@@ -5,7 +5,7 @@
 * April 2024
   * [Nashville Modern Excel and Power BI User Group](https://github.com/thedaxshepherd/Presentations/blob/main/Events/UserGroups/2024/April/ExcelPowerBI/Nash2024_DataModeling_ExcelPowerBI.pdf)
 * May 2024
-  *  SQL Saturday Jacksonville
+  *  [SQL Saturday Jacksonville](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/May/Jacksonville/PowerUpFabric_SQLSATJAX2024.pdf)
 * July 2024
   * SQL Saturday Baton Rouge
 * August 2024
