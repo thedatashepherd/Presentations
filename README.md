@@ -7,7 +7,7 @@
 * May 2024
   *  [SQL Saturday Jacksonville](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/May/Jacksonville/PowerUpFabric_SQLSATJAX2024.pdf)
 * July 2024
-  * SQL Saturday Baton Rouge
+  * [SQL Saturday Baton Rouge](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/July/BatonRouge/BR24_PowerBI-ThisIsTheWay.pdf)
 * August 2024
   * SQL Saturday Albany
   * Austin Texas Power BI and Fabric User Group
