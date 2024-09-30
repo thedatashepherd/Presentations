@@ -18,3 +18,4 @@
 * September 2024
   * [Data Saturday Dallas](https://github.com/thedaxshepherd/Presentations/blob/main/Events/Data_Saturday/2024/September/Dallas/) 
   * [SQL Saturday San Diego](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/September/SanDiego/)
+  * [SQL Saturday Minnesota]((https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2024/September/Minnesota/))
