@@ -22,4 +22,4 @@
 * October 2024
   * [SQL Saturday Orlando](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2024/October/Orlando/)
 * November 2024
-  * [SQL Saturday Oregon & SW Washington]   
+  * [SQL Saturday Oregon & SW Washington](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2024/November/Oregon_SW-WA/)   
