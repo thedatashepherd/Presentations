@@ -23,3 +23,5 @@
   * [SQL Saturday Orlando](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2024/October/Orlando/)
 * November 2024
   * [SQL Saturday Oregon & SW Washington](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2024/November/Oregon_SW-WA/)   
+* February 2025
+  * [Power BI & Fabric Summit 2025](https://github.com/thedaxshepherd/Presentations/tree/main/Events/misc/PowerBIFabricSummit25)
