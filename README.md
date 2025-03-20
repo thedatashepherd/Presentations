@@ -3,6 +3,7 @@
 ## My Presentations from conferences and user groups.
 
 * March 2025
+  * [Nashville Power BI User Group]
   * SQL Saturday Atlanta - AI & BI:
      * [Semantic Link Labs](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2025/March/Atlanta-AI&BI/1.SemanticLinkLabs)
      * [Hard Lessons Blogging](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2025/March/Atlanta-AI&BI/2.Blogging)
