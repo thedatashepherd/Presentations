@@ -2,6 +2,10 @@
 
 ## My Presentations from conferences and user groups.
 
+* July 2025
+  * [SQL Saturday Baton Rouge](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2025/July/BatonRouge)
+* May 2025
+  * [SQL Saturday Jacksonville](https://github.com/thedaxshepherd/Presentations/blob/main/Events/SQL_Saturday/2025/May/SQLSatJAX)
 * March 2025
   * [Nashville Power BI User Group](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/March/NashvillePowerBIUserGroup)
   * SQL Saturday Atlanta - AI & BI:
