@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.3.0/schema.json",
+  "name": "2da5c93ee0b34b13ee76",
+  "displayName": "Brand By Year",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280
+}

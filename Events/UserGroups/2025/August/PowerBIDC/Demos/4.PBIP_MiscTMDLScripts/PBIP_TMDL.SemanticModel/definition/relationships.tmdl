@@ -1,0 +1,12 @@
+relationship a8b50698-7055-48e7-8916-a23af06d860e
+	fromColumn: Sales.ProductKey
+	toColumn: Product.ProductKey
+
+relationship ac5d83e9-674f-414c-a76b-be917eba1763
+	fromColumn: Sales.CustomerKey
+	toColumn: Customer.CustomerKey
+
+relationship 9d669e2e-8c9e-4c12-b20e-f93d76a69879
+	fromColumn: Sales.StoreKey
+	toColumn: Store.StoreKey
+

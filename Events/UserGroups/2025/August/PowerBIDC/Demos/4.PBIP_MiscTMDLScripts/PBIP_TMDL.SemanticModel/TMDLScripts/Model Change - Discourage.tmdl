@@ -1,0 +1,854 @@
+createOrReplace
+
+	model Model
+		culture: en-US
+		defaultPowerBIDataSourceVersion: powerBI_V3
+		sourceQueryCulture: en-US
+		discourageImplicitMeasures: True
+		dataAccessOptions
+			legacyRedirects
+			returnErrorValuesAsNull
+
+		table Product
+			lineageTag: 844ff1e7-2079-457f-80a6-c66fba14fadd
+
+			column ProductKey
+				dataType: int64
+				formatString: 0
+				lineageTag: 03ea471a-e2a5-4663-b176-b0efe2edbb49
+				summarizeBy: none
+				sourceColumn: ProductKey
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Product Code'
+				dataType: string
+				lineageTag: e6c227f3-8f34-4559-aa19-c034e0aa4419
+				summarizeBy: none
+				sourceColumn: Product Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Product Name'
+				dataType: string
+				lineageTag: a52d77d6-539a-40a6-8338-a95991e52c5b
+				summarizeBy: none
+				sourceColumn: Product Name
+
+				annotation SummarizationSetBy = Automatic
+
+			column Manufacturer
+				dataType: string
+				lineageTag: 56cbe180-83ab-4c1a-9b3f-02e336dfa1fb
+				summarizeBy: none
+				sourceColumn: Manufacturer
+
+				annotation SummarizationSetBy = Automatic
+
+			column Brand
+				dataType: string
+				lineageTag: d07ffa86-0898-4f8c-aa2a-06c74e6c5640
+				summarizeBy: none
+				sourceColumn: Brand
+
+				annotation SummarizationSetBy = Automatic
+
+			column Color
+				dataType: string
+				lineageTag: 896bd4f8-e1b9-4c13-a37b-ceeb16217c40
+				summarizeBy: none
+				sourceColumn: Color
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Weight Unit Measure'
+				dataType: string
+				lineageTag: 24c45bff-727e-43a2-8d0d-82ff641f85ea
+				summarizeBy: none
+				sourceColumn: Weight Unit Measure
+
+				annotation SummarizationSetBy = Automatic
+
+			column Weight
+				dataType: double
+				lineageTag: eb620400-1529-474d-be50-7a90dec0daea
+				summarizeBy: none
+				sourceColumn: Weight
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			column 'Unit Cost'
+				dataType: decimal
+				formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+				lineageTag: 9ff6ce95-ac53-40fc-8fdb-0a321634f289
+				summarizeBy: none
+				sourceColumn: Unit Cost
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+			column 'Unit Price'
+				dataType: decimal
+				formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+				lineageTag: adaa61f9-a419-4acb-974d-bc553c98ad15
+				summarizeBy: none
+				sourceColumn: Unit Price
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+			column 'Subcategory Code'
+				dataType: string
+				lineageTag: 66308f2b-cdd1-46f5-b6b6-b9d31edaa431
+				summarizeBy: none
+				sourceColumn: Subcategory Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column Subcategory
+				dataType: string
+				lineageTag: 00d2d9a8-c9a8-4a28-a5a4-1fb7d49a5855
+				summarizeBy: none
+				sourceColumn: Subcategory
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Category Code'
+				dataType: string
+				lineageTag: 319f2268-bb25-48ef-b1ca-d1740ebc2cd7
+				summarizeBy: none
+				sourceColumn: Category Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column Category
+				dataType: string
+				lineageTag: de6865fb-b5aa-4517-9df4-bb1c204c13dd
+				summarizeBy: none
+				sourceColumn: Category
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Product-da86763d-558b-420d-8667-4be8d5c73d82 = m
+				mode: import
+				source =
+						let
+						    Source = Sql.Databases("demo"),
+						    Contoso10K = Source{[Name="Contoso10K"]}[Data],
+						    dbo_Product = Contoso10K{[Schema="dbo",Item="Product"]}[Data]
+						in
+						    dbo_Product
+
+			annotation PBI_ResultType = Table
+
+		table Sales
+			lineageTag: 34c51199-fd23-44fb-bffd-dc8a0458f207
+
+			measure 'Sales Amount' = ```
+					
+					SUMX( Sales, 
+					 Sales[Quantity] * Sales[Unit Price] 
+					 )
+					```
+				formatString: #,0.0
+				lineageTag: 6053d626-8461-4c08-afa8-a43cbbd6c664
+
+			measure #LargeSales_Slow = CALCULATE(COUNTROWS(Sales), FILTER(Sales, Sales[Quantity] > 2))
+				formatString: 0
+				lineageTag: 23775daf-70f5-402f-a61f-056acb84d5cf
+
+			measure #Sales = COUNTROWS(Sales)
+				formatString: 0
+				lineageTag: 0631b10b-e58a-492c-ac53-4ed7e8f21028
+
+			column 'Order Number'
+				dataType: int64
+				formatString: 0
+				lineageTag: ff856811-9ce8-4911-a62a-19d75dd75a79
+				summarizeBy: sum
+				sourceColumn: Order Number
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Line Number'
+				dataType: int64
+				formatString: 0
+				lineageTag: 586393ed-f0c2-4e39-9e44-6db1f397e279
+				summarizeBy: sum
+				sourceColumn: Line Number
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Order Date'
+				dataType: dateTime
+				formatString: Long Date
+				lineageTag: ec122f5d-b726-4365-ab77-ede346c55c0a
+				summarizeBy: none
+				sourceColumn: Order Date
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation UnderlyingDateTimeDataType = Date
+
+			column 'Delivery Date'
+				dataType: dateTime
+				formatString: Long Date
+				lineageTag: beaab96e-fb08-4d94-bc02-234e5ee69cc1
+				summarizeBy: none
+				sourceColumn: Delivery Date
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation UnderlyingDateTimeDataType = Date
+
+			column CustomerKey
+				dataType: int64
+				formatString: 0
+				lineageTag: a6989a3c-f26d-453f-b5e9-721dbe8d36b2
+				summarizeBy: none
+				sourceColumn: CustomerKey
+
+				annotation SummarizationSetBy = Automatic
+
+			column StoreKey
+				dataType: int64
+				formatString: 0
+				lineageTag: c48321d1-eeff-457a-b379-c8153ef20e25
+				summarizeBy: none
+				sourceColumn: StoreKey
+
+				annotation SummarizationSetBy = Automatic
+
+			column ProductKey
+				dataType: int64
+				formatString: 0
+				lineageTag: 045904f1-3b59-46d9-a8aa-4d0b3b3a74fa
+				summarizeBy: none
+				sourceColumn: ProductKey
+
+				annotation SummarizationSetBy = Automatic
+
+			column Quantity
+				dataType: int64
+				formatString: 0
+				lineageTag: 4a9b7de9-c18c-4dec-9d91-4cb134a3e306
+				summarizeBy: sum
+				sourceColumn: Quantity
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Unit Price'
+				dataType: decimal
+				formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+				lineageTag: 7485a5a8-de6e-4e92-a9b2-7127c75df6db
+				summarizeBy: sum
+				sourceColumn: Unit Price
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+			/// Use the measure instead
+			column 'Net Price'
+				dataType: decimal
+				formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+				lineageTag: 9cb07112-9118-459a-89dc-49fd711393f9
+				summarizeBy: sum
+				sourceColumn: Net Price
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+			column 'Unit Cost'
+				dataType: decimal
+				formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+				lineageTag: 5f242d8d-2c6f-4ac9-8b3a-7b9b51812d45
+				summarizeBy: sum
+				sourceColumn: Unit Cost
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+			column 'Currency Code'
+				dataType: string
+				lineageTag: 46e4ed33-3837-4df8-a6bc-4ca80687636d
+				summarizeBy: none
+				sourceColumn: Currency Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Exchange Rate'
+				dataType: double
+				lineageTag: 29f13537-38fc-49ec-aebd-4e1d177e9868
+				summarizeBy: sum
+				sourceColumn: Exchange Rate
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+			column OrderDateId
+				dataType: int64
+				formatString: 0
+				lineageTag: d1ab533d-9875-4366-bf51-1bf838204c02
+				summarizeBy: count
+				sourceColumn: OrderDateId
+
+				annotation SummarizationSetBy = Automatic
+
+			column DeliveryDateId
+				dataType: int64
+				formatString: 0
+				lineageTag: e01ac9a1-254e-4544-99db-9af65bf16437
+				summarizeBy: count
+				sourceColumn: DeliveryDateId
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Sales-18957387-99ff-437c-bb47-d4143e6b3bea = m
+				mode: import
+				source =
+						let
+						    Source = Sql.Databases("demo"),
+						    Contoso10K = Source{[Name="Contoso10K"]}[Data],
+						    dbo_Sales = Contoso10K{[Schema="dbo",Item="Sales"]}[Data]
+						in
+						    dbo_Sales
+
+			annotation PBI_ResultType = Table
+
+		table Store
+			lineageTag: 6f96af29-71f5-413e-bb57-b0c6c34191f3
+
+			column StoreKey
+				dataType: int64
+				formatString: 0
+				lineageTag: 774ca67d-f85a-4dee-8b82-ebde0bbaf664
+				summarizeBy: none
+				sourceColumn: StoreKey
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Store Code'
+				dataType: int64
+				formatString: 0
+				lineageTag: 304556cf-6677-4520-b6cd-463cadf5f565
+				summarizeBy: count
+				sourceColumn: Store Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column Country
+				dataType: string
+				lineageTag: ed72da1d-8a7b-4656-94d1-a54d0a54b08a
+				summarizeBy: none
+				sourceColumn: Country
+
+				annotation SummarizationSetBy = Automatic
+
+			column State
+				dataType: string
+				lineageTag: 67e6d5da-e14f-4068-a06d-ef9406d63bea
+				summarizeBy: none
+				sourceColumn: State
+
+				annotation SummarizationSetBy = Automatic
+
+			column Name
+				dataType: string
+				lineageTag: 7a9313ef-4707-4457-9136-975877e689ce
+				summarizeBy: none
+				sourceColumn: Name
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Square Meters'
+				dataType: int64
+				formatString: 0
+				lineageTag: b1dc657e-d465-44a4-9baf-6e81bccf57f8
+				summarizeBy: sum
+				sourceColumn: Square Meters
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Open Date'
+				dataType: dateTime
+				formatString: Long Date
+				lineageTag: e8ab2504-4815-442b-a917-70faf6fb8a06
+				summarizeBy: none
+				sourceColumn: Open Date
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation UnderlyingDateTimeDataType = Date
+
+			column 'Close Date'
+				dataType: dateTime
+				formatString: Long Date
+				lineageTag: 4f429890-6963-4e77-8585-9caab627748a
+				summarizeBy: none
+				sourceColumn: Close Date
+
+				annotation SummarizationSetBy = Automatic
+
+				annotation UnderlyingDateTimeDataType = Date
+
+			column Status
+				dataType: string
+				lineageTag: 6368a473-8de7-4e58-8e0f-2279e2337464
+				summarizeBy: none
+				sourceColumn: Status
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Store-7f97f017-5bb3-4753-94d5-3dea8b21b98d = m
+				mode: import
+				source =
+						let
+						    Source = Sql.Databases("demo"),
+						    Contoso10K = Source{[Name="Contoso10K"]}[Data],
+						    dbo_Store = Contoso10K{[Schema="dbo",Item="Store"]}[Data]
+						in
+						    dbo_Store
+
+			annotation PBI_ResultType = Table
+
+		table Customer
+			lineageTag: 8b57b73a-c7ab-4e11-bd1d-3b4134f84e05
+
+			column CustomerKey
+				dataType: int64
+				formatString: 0
+				lineageTag: 476a899b-b9ab-4699-bba8-df9642e39bfd
+				summarizeBy: none
+				sourceColumn: CustomerKey
+
+				annotation SummarizationSetBy = Automatic
+
+			column Gender
+				dataType: string
+				lineageTag: a373a8a9-7a80-4f5a-852b-0374aef50f7e
+				summarizeBy: none
+				sourceColumn: Gender
+
+				annotation SummarizationSetBy = Automatic
+
+			column Name
+				dataType: string
+				lineageTag: 3cfe8fb1-58aa-4087-9781-a6a68a5ed24e
+				summarizeBy: none
+				sourceColumn: Name
+
+				annotation SummarizationSetBy = Automatic
+
+			column Address
+				dataType: string
+				lineageTag: 61be27ea-9431-48fb-956d-7e3c265d0c5f
+				summarizeBy: none
+				sourceColumn: Address
+
+				annotation SummarizationSetBy = Automatic
+
+			column City
+				dataType: string
+				lineageTag: 92da155d-72ab-4daf-a395-aa037823f3cf
+				summarizeBy: none
+				sourceColumn: City
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'State Code'
+				dataType: string
+				lineageTag: 54704b30-9d71-4a4c-9f97-0c7b9807f5e8
+				summarizeBy: none
+				sourceColumn: State Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column State
+				dataType: string
+				lineageTag: 7cd8d6f3-573c-4921-a658-56845bdb54f0
+				summarizeBy: none
+				sourceColumn: State
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Zip Code'
+				dataType: string
+				lineageTag: 0b4a183e-0fa6-4e45-99d1-85f67aa150c6
+				summarizeBy: none
+				sourceColumn: Zip Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column 'Country Code'
+				dataType: string
+				lineageTag: adcb889c-22f8-4bdc-9e92-6f89ef7f548c
+				summarizeBy: none
+				sourceColumn: Country Code
+
+				annotation SummarizationSetBy = Automatic
+
+			column Country
+				dataType: string
+				lineageTag: 38756cf6-2bf6-43c9-be6b-1f8d4436b434
+				summarizeBy: none
+				sourceColumn: Country
+
+				annotation SummarizationSetBy = Automatic
+
+			column Continent
+				dataType: string
+				lineageTag: 737d5fbf-231b-44fe-94df-5f068b70356c
+				summarizeBy: none
+				sourceColumn: Continent
+
+				annotation SummarizationSetBy = Automatic
+
+			column Birthday
+				dataType: dateTime
+				formatString: General Date
+				lineageTag: a13cb16e-8b15-44da-9176-9639bdc4db00
+				summarizeBy: none
+				sourceColumn: Birthday
+
+				annotation SummarizationSetBy = Automatic
+
+			column Age
+				dataType: int64
+				formatString: 0
+				lineageTag: a0c1ee50-5549-4d8f-9adc-f4cdfab9d473
+				summarizeBy: sum
+				sourceColumn: Age
+
+				annotation SummarizationSetBy = Automatic
+
+			partition Customer-d032efeb-baa0-4596-8c95-2b0a36ed5362 = m
+				mode: import
+				source =
+						let
+						    Source = Sql.Databases("demo"),
+						    Contoso10K = Source{[Name="Contoso10K"]}[Data],
+						    dbo_Customer = Contoso10K{[Schema="dbo",Item="Customer"]}[Data]
+						in
+						    dbo_Customer
+
+			annotation PBI_ResultType = Table
+
+		/// Date table used to show data as trends over time or compare to different time periods by similar groups, such as year, month, or quarter.
+		table Date
+			lineageTag: c57fc0c8-73d9-47dd-87c7-f7487cef0140
+			dataCategory: Time
+
+			/// Each day's date. Other columns in this table are used to group dates by year, month, quarter, week, and other groups.
+			column Date
+				isKey
+				formatString: dd mmm yyyy
+				lineageTag: 9973d12c-fff2-4ff5-bc0b-4a4352c75516
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Date]
+
+				annotation PBI_FormatHint = {"isCustom":true}
+
+			/// Each year represented as the first date of that year. Can be used on visuals to have a continuous or categorical axis.
+			column Yearly
+				formatString: yyyy
+				displayFolder: Parts as dates
+				lineageTag: dcdb7618-92fb-4573-86a6-8106b7aa23b7
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Yearly]
+
+				annotation PBI_FormatHint = {"isCustom":true}
+
+			/// Each quarter represented as the first date of that quarter. Can be used on visuals to have a continuous or categorical axis.
+			column Quarterly
+				formatString: "Q starting" mmm yyyy
+				displayFolder: Parts as dates
+				lineageTag: 956cd4e8-e879-44b8-9724-57bf692e21ef
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Quarterly]
+
+				annotation PBI_FormatHint = {"isCustom":true}
+
+			/// Each month represented as the first date of that month. Can be used on visuals to have a continuous or categorical axis.
+			column Monthly
+				formatString: mmm yyyy
+				displayFolder: Parts as dates
+				lineageTag: 9192e24b-c4a2-40e8-bd19-1663b10724d2
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Monthly]
+
+				annotation PBI_FormatHint = {"isCustom":true}
+
+			/// Each week represented as the first date of that week, starting Sunday. Can be used on visuals to have a continuous or categorical axis.
+			column Weekly
+				formatString: "Week starting" ddd dd mmm yyyy
+				displayFolder: Parts as dates
+				lineageTag: e213e970-71c3-4d75-a743-f2b7475c859c
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Weekly]
+
+				annotation PBI_FormatHint = {"isCustom":true}
+
+			/// Each month of the year represented as a number starting at 1 in correct sort order and for comparing weeks year over year
+			column 'Month of Year'
+				formatString: 0
+				displayFolder: Parts as numbers
+				lineageTag: b433c956-3b7f-4b6a-856a-ce0c62454446
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Month of Year]
+
+				annotation SummarizationSetBy = User
+
+			/// Each week of the year starting Sundays represented as a number starting at 1 in correct sort order and for comparing weeks year over year
+			column 'Week of Year'
+				formatString: 0
+				displayFolder: Parts as numbers
+				lineageTag: 29f27802-ee57-498a-b85d-4ac2483f3a0c
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Week of Year]
+
+				annotation SummarizationSetBy = User
+
+			/// The 4-digit year
+			column Year
+				formatString: 0
+				displayFolder: Parts as numbers
+				lineageTag: 9fcdd310-cbe0-4111-a381-48a6c3bc1ec9
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Year]
+
+				annotation SummarizationSetBy = User
+
+			/// Each quarter of the year displayed as Q1, Q2, Q3, Q4.
+			column Quarter
+				displayFolder: Parts as text
+				lineageTag: d5498344-4a7a-4a1f-b867-0b6752cbc2a9
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Quarter]
+
+			/// Each quarter with it's year displayed as quarter, year. Sort correctly with ORDER BY CALCULATE(MIN('Date'[Quarterly]))
+			column 'Year Quarter'
+				displayFolder: Parts as text
+				lineageTag: e6cb23b1-10e8-4362-a13e-a36659bb425f
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Year Quarter]
+				sortByColumn: Quarterly
+
+			/// Each month of the year displayed as Jan, Feb, ..., Dec. Sort correctly with ORDER BY CALCULATE(MIN('Date'[Month of Year]))
+			column Month
+				displayFolder: Parts as text
+				lineageTag: 49dd9fbd-6763-4899-9110-088413122218
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Month]
+				sortByColumn: 'Month of Year'
+
+			/// Each month as text formatted as mmm, yyyy
+			column 'Year Month'
+				displayFolder: Parts as text
+				lineageTag: 1ec29bc1-1031-45f3-920c-f6995059efa9
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Year Month]
+				sortByColumn: Monthly
+
+			/// Each week starting Sunday displayed as start of week to end of week in format dd mmm 'yy - dd mmm 'yy. Sort correctly with ORDER BY CALCULATE(MIN('Date'[Weekly]))
+			column Week
+				displayFolder: Parts as text
+				lineageTag: 723e7e13-c097-426f-8cd0-bf7dfd0bf903
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Week]
+				sortByColumn: Weekly
+
+			/// Number of years offset from today's year, future years positive and prior years negative.
+			column 'Today Year Offset'
+				formatString: 0
+				displayFolder: Offset to today
+				lineageTag: f18551a0-5eb6-40b8-adc4-2d04972f7878
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Today Year Offset]
+
+				annotation SummarizationSetBy = User
+
+			/// Number of quarters offset from today's quarter, future quarters positive and prior quarters negative.
+			column 'Today Quarter Offset'
+				formatString: 0
+				displayFolder: Offset to today
+				lineageTag: 38a2472a-4cf3-49b5-8435-bf8cfcd6d35f
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Today Quarter Offset]
+
+				annotation SummarizationSetBy = User
+
+			/// Number of months offset from today's month, future months positive and prior months negative.
+			column 'Today Month Offset'
+				formatString: 0
+				displayFolder: Offset to today
+				lineageTag: 0330dcf4-1463-47b4-89a2-b8eeaa1476b8
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Today Month Offset]
+
+				annotation SummarizationSetBy = User
+
+			/// Number of weeks starting Sunday offset from today's week, future weeks positive and prior weeks negative.
+			column 'Today Week Offset'
+				formatString: 0
+				displayFolder: Offset to today
+				lineageTag: 4bd794d6-7ec9-4394-9d4e-99d7ad973cf4
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Today Week Offset]
+
+				annotation SummarizationSetBy = User
+
+			/// Number of days offset from today, future days positive and prior days negative.
+			column 'Today Day Offset'
+				formatString: 0
+				displayFolder: Offset to today
+				lineageTag: ebf38397-722e-4f50-91ee-a5a7fb03686d
+				summarizeBy: none
+				isNameInferred
+				sourceColumn: [Today Day Offset]
+
+				annotation SummarizationSetBy = User
+
+			hierarchy 'Date Hierarchy'
+				lineageTag: 316ca887-c4bc-4a25-bc25-0725e039ad6c
+
+				level Year
+					lineageTag: d8193df6-aa9d-4975-a981-15cf8f4c4775
+					column: Year
+
+				level Quarter
+					lineageTag: 733400a8-9e57-4466-87a1-a1a1cab1b51e
+					column: Quarter
+
+				level Month
+					lineageTag: f3186375-673b-4b44-8780-29e3c69ddf78
+					column: Month
+
+				level Week
+					lineageTag: d4667e56-b958-4a79-902c-f5c72581511d
+					column: Week
+
+				level Date
+					lineageTag: c3831e38-af0c-488c-b072-1e2fda8c9605
+					column: Date
+
+			partition Date = calculated
+				mode: import
+				source = ```
+						// Date Table by DataZoe, August 2021, datazoepowerbi.com
+						// Here you can specify a start date, or the range of dates in your fact table.
+						// If you have multiple fact tables, you can do MIN(MIN('Fact 1'[Date]),MIN('Fact 2'[Date])) etc.
+						VAR _startdate =
+						    DATE(2017,1,1)
+						VAR _enddate =
+							DATE(2022,1,1)-1
+						RETURN
+						    ADDCOLUMNS (
+						        CALENDAR ( _startdate, _enddate ),
+						        // Create DATE VERSIONS of the year, quarter, month, and week
+						        // These will need to be formatted in the Column Format ribbon or in the Properties Pane in the Model view
+						        // including custom formats, such as mmm yyyy for the month
+						        "Yearly", DATE ( YEAR ( [Date] ), 1, 1 ),
+						        "Quarterly",
+						            DATE ( YEAR ( [Date] ), SWITCH (
+						                MONTH ( [Date] ),
+						                1, 1,
+						                2, 1,
+						                3, 1,
+						                4, 4,
+						                5, 4,
+						                6, 4,
+						                7, 7,
+						                8, 7,
+						                9, 7,
+						                10, 10,
+						                11, 10,
+						                12, 10
+						            ), 1 ),
+						        "Monthly", DATE ( YEAR ( [Date] ), MONTH ( [Date] ), 1 ),
+						        "Weekly",
+						            [Date] - WEEKDAY ( [Date], 1 ) + 1,
+						        // Month and Week OF YEAR to do accurate year over year week compares 
+						        "Month of Year", MONTH ( [Date] ),
+						        "Week of Year", WEEKNUM ( [Date] ),
+						        // Create TEXT VERSIONS of the year, quarter, month, and week
+						        // These will need to be sort by date versions above
+						        // or the Month of Year to sort correctly
+						        "Year", YEAR ( [Date] ),
+						        "Quarter", CONCATENATE ( "Q", FORMAT ( QUARTER ( [Date] ), "0" ) ),
+						        "Year Quarter", "Q" & FORMAT ( [Date], "q, yyyy" ),
+						        "Month", FORMAT ( [Date], "MMM" ),
+						        "Year Month", FORMAT ( [Date], "MMM, yyyy" ),
+						        "Week",
+						            FORMAT ( [Date] - WEEKDAY ( [Date], 1 ) + 1, "dd MMM 'yy" ) & " - "
+						                & FORMAT ( ( [Date] - WEEKDAY ( [Date], 1 ) + 1 ) + 6, "dd MMM 'yy" ),
+						        // Compared to today fields for when you want to always have say the current show by default
+						        "Today Year Offset", DATEDIFF ( TODAY (), [Date], YEAR ),
+						        "Today Quarter Offset", DATEDIFF ( TODAY (), [Date], QUARTER ),
+						        "Today Month Offset", DATEDIFF ( TODAY (), [Date], MONTH ),
+						        "Today Week Offset", DATEDIFF ( TODAY (), [Date], WEEK ),
+						        "Today Day Offset", DATEDIFF ( TODAY (), [Date], DAY )
+						    )
+						```
+
+			annotation PBI_Id = f9ac7d56b5e34adebee8b0ca93c6be23
+
+		relationship a8b50698-7055-48e7-8916-a23af06d860e
+			fromColumn: Sales.ProductKey
+			toColumn: Product.ProductKey
+
+		relationship ac5d83e9-674f-414c-a76b-be917eba1763
+			fromColumn: Sales.CustomerKey
+			toColumn: Customer.CustomerKey
+
+		relationship 9d669e2e-8c9e-4c12-b20e-f93d76a69879
+			fromColumn: Sales.StoreKey
+			toColumn: Store.StoreKey
+
+		relationship 82c8bb41-4c1a-9e68-c39b-67d1a91fb7f6
+			fromColumn: Sales.'Order Date'
+			toColumn: Date.Date
+
+		cultureInfo en-US
+
+			linguisticMetadata =
+					{
+					  "Version": "1.0.0",
+					  "Language": "en-US"
+					}
+				contentType: json
+
+		annotation __PBI_TimeIntelligenceEnabled = 0
+
+		annotation PBIDesktopVersion = 2.140.1205.0 (25.02)+2ab3defe107764e1cf486b42122d9362df7f34ea
+
+		annotation PBI_QueryOrder = ["Product","Sales","Store","Customer"]
+
+		annotation __TEdtr = 1
+
+		annotation PBI_ProTooling = ["DaxQueryView_Desktop","TMDLView_Desktop","DevMode"]
+
