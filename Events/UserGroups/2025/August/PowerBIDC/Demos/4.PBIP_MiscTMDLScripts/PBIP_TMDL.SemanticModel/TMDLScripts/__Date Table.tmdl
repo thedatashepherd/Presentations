@@ -1,0 +1,213 @@
+createOrReplace
+	/// Date table used to show data as trends over time or compare to different time periods by similar groups, such as year, month, or quarter.
+	/// Date Table by DataZoe, August 2021, datazoepowerbi.com
+	table Date
+		dataCategory: Time
+		/// Each day's date. Other columns in this table are used to group dates by year, month, quarter, week, and other groups.
+		column Date
+			isKey
+			formatString: dd mmm yyyy
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Date]
+			annotation PBI_FormatHint = {"isCustom":true}
+		/// Each year represented as the first date of that year. Can be used on visuals to have a continuous or categorical axis.
+		column Yearly
+			formatString: yyyy
+			displayFolder: Parts as dates
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Yearly]
+			annotation PBI_FormatHint = {"isCustom":true}
+		/// Each quarter represented as the first date of that quarter. Can be used on visuals to have a continuous or categorical axis.
+		column Quarterly
+			formatString: "Q starting" mmm yyyy
+			displayFolder: Parts as dates
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Quarterly]
+			annotation PBI_FormatHint = {"isCustom":true}
+		/// Each month represented as the first date of that month. Can be used on visuals to have a continuous or categorical axis.
+		column Monthly
+			formatString: mmm yyyy
+			displayFolder: Parts as dates
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Monthly]
+			annotation PBI_FormatHint = {"isCustom":true}
+		/// Each week represented as the first date of that week, starting Sunday. Can be used on visuals to have a continuous or categorical axis.
+		column Weekly
+			formatString: "Week starting" ddd dd mmm yyyy
+			displayFolder: Parts as dates
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Weekly]
+			annotation PBI_FormatHint = {"isCustom":true}
+		/// Each month of the year represented as a number starting at 1 in correct sort order and for comparing weeks year over year
+		column 'Month of Year'
+			formatString: 0
+			displayFolder: Parts as numbers
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Month of Year]
+			annotation SummarizationSetBy = User
+		/// Each week of the year starting Sundays represented as a number starting at 1 in correct sort order and for comparing weeks year over year
+		column 'Week of Year'
+			formatString: 0
+			displayFolder: Parts as numbers
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Week of Year]
+			annotation SummarizationSetBy = User
+		/// The 4-digit year
+		column Year
+			formatString: 0
+			displayFolder: Parts as numbers
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Year]
+			annotation SummarizationSetBy = User
+		/// Each quarter of the year displayed as Q1, Q2, Q3, Q4.
+		column Quarter
+			displayFolder: Parts as text
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Quarter]
+		/// Each quarter with it's year displayed as quarter, year. Sort correctly with ORDER BY CALCULATE(MIN('Date'[Quarterly])) 
+		column 'Year Quarter'
+			displayFolder: Parts as text
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Year Quarter]
+			sortByColumn: Quarterly
+		/// Each month of the year displayed as Jan, Feb, ..., Dec. Sort correctly with ORDER BY CALCULATE(MIN('Date'[Month of Year]))
+		column Month
+			displayFolder: Parts as text
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Month]
+			sortByColumn: 'Month of Year'
+		/// Each month as text formatted as mmm, yyyy
+		column 'Year Month'
+			displayFolder: Parts as text
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Year Month]
+			sortByColumn: Monthly
+		/// Each week starting Sunday displayed as start of week to end of week in format dd mmm 'yy - dd mmm 'yy. Sort correctly with ORDER BY CALCULATE(MIN('Date'[Weekly])) 
+		column Week
+			displayFolder: Parts as text
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Week]
+			sortByColumn: Weekly
+		/// Number of years offset from today's year, future years positive and prior years negative.
+		column 'Today Year Offset'
+			formatString: 0
+			displayFolder: Offset to today
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Today Year Offset]
+			annotation SummarizationSetBy = User
+		/// Number of quarters offset from today's quarter, future quarters positive and prior quarters negative.
+		column 'Today Quarter Offset'
+			formatString: 0
+			displayFolder: Offset to today
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Today Quarter Offset]
+			annotation SummarizationSetBy = User
+		/// Number of months offset from today's month, future months positive and prior months negative.
+		column 'Today Month Offset'
+			formatString: 0
+			displayFolder: Offset to today
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Today Month Offset]
+			annotation SummarizationSetBy = User
+		/// Number of weeks starting Sunday offset from today's week, future weeks positive and prior weeks negative.
+		column 'Today Week Offset'
+			formatString: 0
+			displayFolder: Offset to today
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Today Week Offset]
+			annotation SummarizationSetBy = User
+		/// Number of days offset from today, future days positive and prior days negative.
+		column 'Today Day Offset'
+			formatString: 0
+			displayFolder: Offset to today
+			summarizeBy: none
+			isNameInferred
+			sourceColumn: [Today Day Offset]
+			annotation SummarizationSetBy = User
+		hierarchy 'Date Hierarchy'
+			level Year
+				column: Year
+			level Quarter
+				column: Quarter
+			level Month
+				column: Month
+			level Week
+				column: Week
+			level Date
+				column: Date
+		partition Date = calculated
+			mode: import
+			source = ```
+					// Date Table by DataZoe, August 2021, datazoepowerbi.com
+					// Here you can specify a start date, or the range of dates in your fact table.
+					// If you have multiple fact tables, you can do MIN(MIN('Fact 1'[Date]),MIN('Fact 2'[Date])) etc.
+					VAR _startdate =
+					    DATE(2017,1,1)
+					VAR _enddate =
+						DATE(2022,1,1)-1
+					RETURN
+					    ADDCOLUMNS (
+					        CALENDAR ( _startdate, _enddate ),
+					        // Create DATE VERSIONS of the year, quarter, month, and week
+					        // These will need to be formatted in the Column Format ribbon or in the Properties Pane in the Model view
+					        // including custom formats, such as mmm yyyy for the month
+					        "Yearly", DATE ( YEAR ( [Date] ), 1, 1 ),
+					        "Quarterly",
+					            DATE ( YEAR ( [Date] ), SWITCH (
+					                MONTH ( [Date] ),
+					                1, 1,
+					                2, 1,
+					                3, 1,
+					                4, 4,
+					                5, 4,
+					                6, 4,
+					                7, 7,
+					                8, 7,
+					                9, 7,
+					                10, 10,
+					                11, 10,
+					                12, 10
+					            ), 1 ),
+					        "Monthly", DATE ( YEAR ( [Date] ), MONTH ( [Date] ), 1 ),
+					        "Weekly",
+					            [Date] - WEEKDAY ( [Date], 1 ) + 1,
+					        // Month and Week OF YEAR to do accurate year over year week compares 
+					        "Month of Year", MONTH ( [Date] ),
+					        "Week of Year", WEEKNUM ( [Date] ),
+					        // Create TEXT VERSIONS of the year, quarter, month, and week
+					        // These will need to be sort by date versions above
+					        // or the Month of Year to sort correctly
+					        "Year", YEAR ( [Date] ),
+					        "Quarter", CONCATENATE ( "Q", FORMAT ( QUARTER ( [Date] ), "0" ) ),
+					        "Year Quarter", "Q" & FORMAT ( [Date], "q, yyyy" ),
+					        "Month", FORMAT ( [Date], "MMM" ),
+					        "Year Month", FORMAT ( [Date], "MMM, yyyy" ),
+					        "Week",
+					            FORMAT ( [Date] - WEEKDAY ( [Date], 1 ) + 1, "dd MMM 'yy" ) & " - "
+					                & FORMAT ( ( [Date] - WEEKDAY ( [Date], 1 ) + 1 ) + 6, "dd MMM 'yy" ),
+					        // Compared to today fields for when you want to always have say the current show by default
+					        "Today Year Offset", DATEDIFF ( TODAY (), [Date], YEAR ),
+					        "Today Quarter Offset", DATEDIFF ( TODAY (), [Date], QUARTER ),
+					        "Today Month Offset", DATEDIFF ( TODAY (), [Date], MONTH ),
+					        "Today Week Offset", DATEDIFF ( TODAY (), [Date], WEEK ),
+					        "Today Day Offset", DATEDIFF ( TODAY (), [Date], DAY )
+					    )
+					```
+		annotation PBI_Id = f9ac7d56b5e34adebee8b0ca93c6be23
