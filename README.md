@@ -3,7 +3,7 @@
 ## Highlights from Recent Conference & User Group Presentations (see repo for complete list)
 
 * October 2025
-  * [SQL Saturday Orlando](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/October/Orlando)
+  * [SQL Saturday Orlando](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2025/October/Orlando)
 * September 2025
   * [Chattanooga User Group](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/September/ChattanoogaUserGroup)
 * August 2025
