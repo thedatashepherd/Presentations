@@ -3,6 +3,7 @@
 ## Highlights from Recent Conference & User Group Presentations (see repo for complete list)
 
 * October 2025
+  * [Nashville Power BI User Group](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/October/Nashville)
   * [Austin User Group](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/October/Austin) 
   * [SQL Saturday Orlando](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2025/October/Orlando)
 * September 2025
