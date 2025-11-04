@@ -2,6 +2,8 @@
 
 ## Highlights from Recent Conference & User Group Presentations (see repo for complete list)
 
+* November 2025
+  * [Atlanta Microsoft Business Intelligence Users](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/November/AtlantaBI)
 * October 2025
   * [SQL Saturday St. Louis](https://github.com/thedaxshepherd/Presentations/tree/main/Events/SQL_Saturday/2025/October/StLouis)
   * [Nashville Power BI User Group](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/October/Nashville)
