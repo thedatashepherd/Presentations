@@ -1,0 +1,1 @@
+Turn on Auto/DateTime in the file and it will increase to over 100MB.
