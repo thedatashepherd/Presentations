@@ -2,6 +2,8 @@
 
 ## Highlights from Recent Conference & User Group Presentations (see repo for complete list)
 
+* January 2026
+  * [Ohio North Data User Group](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2026/January/NorthOhioData)
 * December 2025
   * [Indy BI User Group Meeting](https://github.com/thedaxshepherd/Presentations/tree/main/Events/UserGroups/2025/December/IndyBI)
 * November 2025
