@@ -16,7 +16,7 @@ Slides and demo files from my conference and user group sessions on **Microsoft 
 
 | Date | Event | Location | Session | Slides | Demos |
 |------|-------|----------|---------|--------|-------|
-| Mar 2026 | DataTune 2026 | Nashville, TN | Power up your Fabric Development with DAX Studio and Tabular Editor | [📄 PDF](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/March/DataTune2026/DataTune2026_PowerToolkit.pdf) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/March/DataTune2026/Demos) |
+| Mar 2026 | DataTune 2026 | Nashville, TN | The Data Professional's Power Toolkit: Free Tools to Supercharge Your Workflow | [📄 PDF](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/March/DataTune2026/DataTune2026_PowerToolkit.pdf) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/March/DataTune2026/Demos) |
 | Feb 2026 | Power BI & Fabric Summit 2026 | | Semantic Link Labs: A Link to the Future | [📄 PDF](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/February/PowerBISummit2026/PowerBISummit2026_SemanticLinkLabs.pdf) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/February/PowerBISummit2026/Demos) |
 | Jan 2026 | Ohio North Data User Group | Ohio | Data on Fire: A Hands-On Intro to Spark in Fabric | [📄 PDF](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/January/OhioNorthData/Ohio_North_Data_FabricSpark.pdf) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/January/OhioNorthData/Demos) |
 
