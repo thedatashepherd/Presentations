@@ -1,0 +1,10 @@
+Can you suggest descriptions for each of the columns for the 
+product table, using the syntax where the description occurs before 
+the declaration of the column (column 'column_name')with three 
+slashes "///" Include the description as a maximum of two bullet points.
+
+/// - This
+/// - Example
+
+Ensure that each description is practical and concise.
+Do not change the indention of the current file. 

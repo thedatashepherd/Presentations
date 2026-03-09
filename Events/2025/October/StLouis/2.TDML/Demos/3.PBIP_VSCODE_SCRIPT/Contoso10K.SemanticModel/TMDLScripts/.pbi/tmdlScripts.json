@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "tabOrder": [
+    "Script_ProductTable",
+    "Script_CustomerTable",
+    "Script_FullModel",
+    "Script_ProductTable_WithDescriptions"
+  ],
+  "defaultTab": "Script_ProductTable_WithDescriptions"
+}

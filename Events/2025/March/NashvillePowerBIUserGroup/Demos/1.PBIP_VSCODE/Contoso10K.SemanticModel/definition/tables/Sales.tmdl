@@ -1,0 +1,178 @@
+table Sales
+	lineageTag: 34c51199-fd23-44fb-bffd-dc8a0458f207
+
+	measure #Sales = COUNTROWS(Sales)
+		formatString: 0
+		lineageTag: 0631b10b-e58a-492c-ac53-4ed7e8f21028
+
+	measure 'Sales Amount' = ```
+			
+			SUMX( Sales, 
+			 Sales[Quantity] * Sales[Unit Price] 
+			 )
+			```
+		formatString: #,0.0
+		lineageTag: 6053d626-8461-4c08-afa8-a43cbbd6c664
+
+	measure #LargeSales_Slow = CALCULATE(COUNTROWS(Sales), FILTER(Sales, Sales[Quantity] > 2))
+		formatString: 0
+		lineageTag: 23775daf-70f5-402f-a61f-056acb84d5cf
+
+	column 'Order Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: ff856811-9ce8-4911-a62a-19d75dd75a79
+		summarizeBy: sum
+		sourceColumn: Order Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Line Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 586393ed-f0c2-4e39-9e44-6db1f397e279
+		summarizeBy: sum
+		sourceColumn: Line Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ec122f5d-b726-4365-ab77-ede346c55c0a
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Delivery Date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: beaab96e-fb08-4d94-bc02-234e5ee69cc1
+		summarizeBy: none
+		sourceColumn: Delivery Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: a6989a3c-f26d-453f-b5e9-721dbe8d36b2
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c48321d1-eeff-457a-b379-c8153ef20e25
+		summarizeBy: none
+		sourceColumn: StoreKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 045904f1-3b59-46d9-a8aa-4d0b3b3a74fa
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a9b7de9-c18c-4dec-9d91-4cb134a3e306
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Unit Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 7485a5a8-de6e-4e92-a9b2-7127c75df6db
+		summarizeBy: sum
+		sourceColumn: Unit Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	/// Use the measure instead
+	column 'Net Price'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 9cb07112-9118-459a-89dc-49fd711393f9
+		summarizeBy: sum
+		sourceColumn: Net Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Unit Cost'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5f242d8d-2c6f-4ac9-8b3a-7b9b51812d45
+		summarizeBy: sum
+		sourceColumn: Unit Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'Currency Code'
+		dataType: string
+		lineageTag: 46e4ed33-3837-4df8-a6bc-4ca80687636d
+		summarizeBy: none
+		sourceColumn: Currency Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Exchange Rate'
+		dataType: double
+		lineageTag: 29f13537-38fc-49ec-aebd-4e1d177e9868
+		summarizeBy: sum
+		sourceColumn: Exchange Rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OrderDateId
+		dataType: int64
+		formatString: 0
+		lineageTag: d1ab533d-9875-4366-bf51-1bf838204c02
+		summarizeBy: count
+		sourceColumn: OrderDateId
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeliveryDateId
+		dataType: int64
+		formatString: 0
+		lineageTag: e01ac9a1-254e-4544-99db-9af65bf16437
+		summarizeBy: count
+		sourceColumn: DeliveryDateId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales-18957387-99ff-437c-bb47-d4143e6b3bea = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("demo"),
+				    Contoso10K = Source{[Name="Contoso10K"]}[Data],
+				    dbo_Sales = Contoso10K{[Schema="dbo",Item="Sales"]}[Data]
+				in
+				    dbo_Sales
+
+	annotation PBI_ResultType = Table
+

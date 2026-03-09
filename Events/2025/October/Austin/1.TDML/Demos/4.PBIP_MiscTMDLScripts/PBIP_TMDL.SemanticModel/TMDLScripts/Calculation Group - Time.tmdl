@@ -1,0 +1,79 @@
+createOrReplace
+
+	/// Defines additional DAX logic that can be used with model measures to perform analysis with the date table.
+	table 'Time intelligence'
+		
+
+		calculationGroup
+
+			calculationItem Total = SELECTEDMEASURE()
+
+			calculationItem MTD = CALCULATE(SELECTEDMEASURE(), DATESMTD('Date'[Date]))
+
+			calculationItem QTD = CALCULATE(SELECTEDMEASURE(), DATESQTD('Date'[Date]))
+
+			calculationItem YTD = CALCULATE(SELECTEDMEASURE(), DATESYTD('Date'[Date]))
+
+			calculationItem PY = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Date'[Date]))
+
+			calculationItem 'PY MTD' =
+					CALCULATE(
+					    SELECTEDMEASURE(),
+					    SAMEPERIODLASTYEAR('Date'[Date]),
+					    'Time Intelligence'[Time Calculation] = "MTD"
+					)
+
+			calculationItem 'PY QTD' =
+					CALCULATE(
+					    SELECTEDMEASURE(),
+					    SAMEPERIODLASTYEAR('Date'[Date]),
+					    'Time Intelligence'[Time Calculation] = "QTD"
+					)
+
+			calculationItem YOY = ```
+					
+					VAR _ThisYear = 
+					    SELECTEDMEASURE()
+					VAR _PY = 
+					CALCULATE(
+					    SELECTEDMEASURE(),
+					    'Time Intelligence'[Time Calculation] = "PY"
+					)
+					RETURN
+					IF(OR(ISBLANK(_ThisYear),ISBLANK(_PY)),BLANK(), _ThisYear-_PY)
+					```
+
+			calculationItem YOY% =
+					DIVIDE(
+					    CALCULATE(
+					        SELECTEDMEASURE(),
+					        'Time Intelligence'[Time Calculation]="YOY"
+					    ),
+					    CALCULATE(
+					        SELECTEDMEASURE(),
+					        'Time Intelligence'[Time Calculation]="PY"
+					    )
+					)
+
+				formatStringDefinition = "#,##0.0%"
+
+		/// Use with measures & date table for Current: current value, MTD: month to date, QTD: quarter to date, YTD: year to date, PY: prior year, PY MTD, PY QTD, YOY: year over year change, YOY%: YOY as a %
+		column 'Time calculation'
+			dataType: string
+			
+			summarizeBy: none
+			sourceColumn: Name
+			sortByColumn: Ordinal
+
+			annotation SummarizationSetBy = Automatic
+
+		column Ordinal
+			dataType: int64
+			isHidden
+			formatString: 0
+			
+			summarizeBy: sum
+			sourceColumn: Ordinal
+
+			annotation SummarizationSetBy = Automatic
+

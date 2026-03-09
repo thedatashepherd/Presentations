@@ -1,0 +1,168 @@
+table Date
+	lineageTag: 093cc89d-ab2b-423e-9810-be9d879345e1
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0bbfcfc4-20b3-48c4-b1d8-b3580bde1eee
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7de18a58-8189-4a64-a8b9-9b278f40a9d2
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter'
+		dataType: string
+		lineageTag: c5f3bb74-3d89-40e7-9087-7b2e02783535
+		summarizeBy: none
+		sourceColumn: Year Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9a7ec1bf-0f5f-4ce2-b775-cf365ae00def
+		summarizeBy: sum
+		sourceColumn: Year Quarter Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 568ff237-8ecd-4476-bdaa-52284d10d581
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: 3b9198b4-3ed9-487f-83c2-241e722b5b67
+		summarizeBy: none
+		sourceColumn: Year Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Short'
+		dataType: string
+		lineageTag: bfbe651e-442b-44cf-a613-08ffaa7959eb
+		summarizeBy: none
+		sourceColumn: Year Month Short
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: bb247706-5410-4e60-a729-c13b4780c432
+		summarizeBy: sum
+		sourceColumn: Year Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: string
+		lineageTag: 41d19a3a-2230-40ea-9cc0-899b5cd4cb8e
+		summarizeBy: none
+		sourceColumn: Month
+		sortByColumn: 'Month Number'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Short'
+		dataType: string
+		lineageTag: d101501f-cdea-48e2-862c-92f650fd34d9
+		summarizeBy: none
+		sourceColumn: Month Short
+		sortByColumn: 'Month Number'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: db3ed543-b9d2-471b-bee2-9df095d87450
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		dataType: string
+		lineageTag: 7d9a7e0c-327d-45dc-be0b-29a7b89c7c0a
+		summarizeBy: none
+		sourceColumn: Day of Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Short'
+		dataType: string
+		lineageTag: 62f69175-2e4a-4017-8e6f-4be146742d28
+		summarizeBy: none
+		sourceColumn: Day of Week Short
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2308482b-ad52-4d11-a0c7-bf3cb7d59980
+		summarizeBy: sum
+		sourceColumn: Day of Week Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Working Day'
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e3b8d798-b68e-4ffd-8389-c340f41d6004
+		summarizeBy: none
+		sourceColumn: Working Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Working Day Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cc545b3-d5e7-4eee-adf8-d981d26bc0f6
+		summarizeBy: sum
+		sourceColumn: Working Day Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateId
+		dataType: int64
+		formatString: 0
+		lineageTag: 285e8b26-09e9-4deb-804b-6b0554074fa9
+		summarizeBy: count
+		sourceColumn: DateId
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date-f5b466d6-fe82-40ff-81d5-3ad45d7df113 = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("demo"),
+				    Contoso10K = Source{[Name="Contoso10K"]}[Data],
+				    dbo_Date = Contoso10K{[Schema="dbo",Item="Date"]}[Data]
+				in
+				    dbo_Date
+
+	annotation PBI_ResultType = Table
+

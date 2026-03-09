@@ -1,0 +1,13 @@
+﻿// DAX Query
+DEFINE
+	VAR __DS0Core = 
+		SUMMARIZECOLUMNS('Date'[Year Month Short], "Total_BIG_Orders_Bad", 'Sales'[Total BIG Orders Bad])
+
+	VAR __DS0PrimaryWindowed = 
+		TOPN(1001, __DS0Core, [Total_BIG_Orders_Bad], 0, 'Date'[Year Month Short], 1)
+
+EVALUATE
+	__DS0PrimaryWindowed
+
+ORDER BY
+	[Total_BIG_Orders_Bad] DESC, 'Date'[Year Month Short]

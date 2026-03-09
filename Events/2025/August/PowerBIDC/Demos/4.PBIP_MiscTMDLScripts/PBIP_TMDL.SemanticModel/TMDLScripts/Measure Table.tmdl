@@ -1,0 +1,41 @@
+createOrReplace
+	/// Credit to Alexander Korn on FabSnippets: https://fabsnippets.com/snippet/26
+	table '🎯Measures | 1.📈KPIs'
+		lineageTag: 5b77fb14-15e7-485f-b4f2-04d64e555d3f
+
+		column Value
+			isHidden
+			lineageTag: 7e2e1395-3081-47f7-8aad-43ead4d97bc6
+			isNameInferred
+			sourceColumn: [Value]
+
+		partition '🎯Measures | 1.📈KPIs' = calculated
+			mode: import
+			source = {0}
+	
+	table '🎯Measures | 2. #⃣ Variables'
+		lineageTag: 136bb655-ea44-4e2c-8e2c-4b1a937d631a
+
+		column Value
+			isHidden
+			lineageTag: 5394559c-99f0-484f-8e48-e5940b23d215
+			isNameInferred
+			sourceColumn: [Value]
+
+		partition '🎯Measures | 2. #⃣ Variables' = calculated
+			mode: import
+			source = {0}
+
+	table '🎯Measures | 3.📋Titles and Labels'
+		lineageTag: 5d7d76d1-ef56-4229-abe9-7f370a65585b
+
+		column Value
+			isHidden
+			lineageTag: 453c18cd-ffa2-49be-b59b-d60ace1d4ab4
+			isNameInferred
+			sourceColumn: [Value]
+
+		partition '🎯Measures | 3.📋Titles and Labels' = calculated
+			mode: import
+			source = {0}
+
