@@ -1,0 +1,11 @@
+SELECT 
+       [WitnessName]
+      ,[EndpointCheck]
+      ,[WitnessKey]
+      ,[IncidentKey]
+      ,[WitnessName]
+      ,[Address]
+      ,[StatementDate]
+      ,[Credible]
+      ,[PhobiasNoted]    
+  FROM [dbo].[dim_witness]

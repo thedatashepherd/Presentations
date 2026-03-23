@@ -1,0 +1,6 @@
+createOrReplace
+
+	relationship 82c8bb41-4c1a-9e68-c39b-67d1a91fb7f6
+		fromColumn: Sales.'Order Date'
+		toColumn: Date.Date
+
