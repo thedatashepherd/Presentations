@@ -16,6 +16,7 @@ Slides and demo files from my conference and user group sessions on **Microsoft 
 
 | Date | Event | Location | Session | Slides | Demos |
 |------|-------|----------|---------|--------|-------|
+| May 2026 | Day of Data Jacksonville 2026 | Jacksonville, FL | TBD | — | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/May/DayOfData_JAX/Demos) |
 | Mar 2026 | SQL Saturday Atlanta 2026 (AI & BI) | Alpharetta, GA | Unlocking the Power of TMDL: Enhancing Power BI Development | [📊 Slides](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/March/SQLSatAtlanta2026/TMDL_SQLSaturdayAtlanta2026.pptx) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/March/SQLSatAtlanta2026/Demos) |
 | Mar 2026 | FabCon US 2026 | Atlanta, GA | Semantic Link Labs: The Data Detective's Toolkit | [📊 Slides](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/March/FabConUS2026/Semantic%20Link%20Labs%20-%20The%20Data%20Detectives%20Toolkit.pptx) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/March/FabConUS2026/Demos) |
 | Mar 2026 | Data Saturday Chicago #76 | Palatine, IL | Data on Fire: A Hands-On Intro to Spark in Fabric | [📊 Slides](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/March/DataSaturdayChicago/DataSaturdayChicago2026_FabricSpark.pptx) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/March/DataSaturdayChicago/Demos) |
