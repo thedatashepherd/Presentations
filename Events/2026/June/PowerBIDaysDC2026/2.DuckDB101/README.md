@@ -32,7 +32,7 @@ All demos use the **US Airline On-Time Performance** dataset from the [Bureau of
 
 | File | Description |
 |---|---|
-| `nb_01_meet_the_duck.py` | Intro to DuckDB in a Fabric notebook |
-| `nb_02_flights_demo.py` | Flights dataset queries running in Fabric |
+| `nb_01_meet_the_duck.ipynb` | Intro to DuckDB in a Fabric notebook |
+| `nb_02_flights_demo.ipynb` | Flights dataset queries running in Fabric |
 
-> Import the `.py` files into a Fabric notebook to follow along.
+> Import the `.ipynb` files into a Fabric notebook to follow along.
