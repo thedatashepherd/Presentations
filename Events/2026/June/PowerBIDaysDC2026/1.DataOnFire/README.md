@@ -6,8 +6,20 @@
 
 ## Slides
 
-Coming soon.
+`DCDays2026_FabricSpark.pptx`
 
 ## Demos
 
-Demo files live in a separate repo: [data-on-fire-fabric-spark](https://github.com/thedaxshepherd/data-on-fire-fabric-spark)
+All demos run in Microsoft Fabric notebooks using PySpark and Python. Import the `.py` files into a Fabric notebook to follow along.
+
+### Fabric Notebooks (`Demos/FabricNotebooks/`)
+
+| File | Description |
+|---|---|
+| `01_Python.py` | Python basics in a Fabric notebook — data types, pandas, working with data |
+| `02_PySpark.py` | Introduction to PySpark — DataFrames, transformations, and actions |
+| `03_WritingToLakehouse.py` | Writing data to a Fabric Lakehouse using PySpark |
+| `04_SemanticLink.py` | Semantic Link — connecting Fabric notebooks to Power BI semantic models |
+| `05_WindowFunctions.py` | PySpark window functions for advanced analytics |
+
+> Notebooks 03 and 05 were not demoed live but are included as bonus material.
