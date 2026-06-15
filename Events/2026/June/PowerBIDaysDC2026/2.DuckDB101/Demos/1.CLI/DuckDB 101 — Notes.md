@@ -2,8 +2,6 @@
 
 > **Obsidian tip:** `Ctrl+=` to zoom in, `Ctrl+-` to zoom out
 
->[!note] Working Folder:
-C:\Demos\duck-pasture\cli-demo
 ## Install
 
 **Windows**
@@ -35,7 +33,7 @@ SELECT 'Hello world'
 >[!danger] What Am I Doing Wrong?
 ### Exit Thrashing
 
-![[vim-exit-thrashing.png]]
+![vim exit thrashing](vim-exit-thrashing.png)
 
 ```
 .exit   or   .quit
