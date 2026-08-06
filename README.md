@@ -16,6 +16,8 @@ Slides and demo files from my conference and user group sessions on **Microsoft 
 
 | Date | Event | Location | Session | Slides | Demos |
 |------|-------|----------|---------|--------|-------|
+| Aug 2026 | Day of Data Albany 2026 | Albany, NY | The Data Professional's Power Toolkit: Free Tools to Supercharge Your Workflow | [🔜 Coming soon](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/August/DayOfData_Albany/1.PowerToolkit) | — |
+| Aug 2026 | Day of Data Albany 2026 | Albany, NY | DuckDB 101: From Desktop to Notebook | [🔜 Coming soon](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/August/DayOfData_Albany/2.DuckDB101) | — |
 | Jul 2026 | Day of Data Baton Rouge 2026 | Baton Rouge, LA | Data on Fire: A Hands-On Intro to Spark in Fabric | [📊 Slides](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/July/DayOfData_BatonRouge/1.DataOnFire/BR_DayofData2026_FabricSpark.pptx) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/July/DayOfData_BatonRouge/1.DataOnFire) |
 | Jul 2026 | Day of Data Baton Rouge 2026 | Baton Rouge, LA | Blogging: Lessons I Learned the Hard Way | [📊 Slides](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/July/DayOfData_BatonRouge/2.Blogging/BR_DayofData2026_Blogging.pptx) | — |
 | Jun 2026 | Power BI Days DC 2026 | Washington, DC | Data on Fire: A Hands-On Intro to Spark in Fabric | [📊 Slides](https://github.com/thedaxshepherd/Presentations/blob/main/Events/2026/June/PowerBIDaysDC2026/1.DataOnFire/DCDays2026_FabricSpark.pptx) | [💻 Files](https://github.com/thedaxshepherd/Presentations/tree/main/Events/2026/June/PowerBIDaysDC2026/1.DataOnFire) |
