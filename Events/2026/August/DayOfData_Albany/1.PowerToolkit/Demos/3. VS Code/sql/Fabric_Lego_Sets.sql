@@ -1,0 +1,7 @@
+SELECT TOP (1000) [set_num]
+      ,[name]
+      ,[year]
+      ,[theme_id]
+      ,[num_parts]
+      ,[img_url]
+  FROM [legos].[sets]
