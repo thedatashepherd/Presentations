@@ -2,7 +2,7 @@
 
 **Event:** Power BI Days DC 2026  
 **Date:** June 12, 2026 — 1:30 PM ET  
-**Speaker:** Jason Romans — The DAX Shepherd
+**Speaker:** Jason Romans — The Data Shepherd
 
 ---
 
