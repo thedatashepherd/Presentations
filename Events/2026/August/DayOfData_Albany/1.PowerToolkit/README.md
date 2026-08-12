@@ -2,7 +2,7 @@
 
 **Event:** Day of Data Albany 2026
 **Date:** August 8, 2026
-**Speaker:** Jason Romans — The DAX Shepherd
+**Speaker:** Jason Romans — The Data Shepherd
 
 Event page: https://dayofdata.org/2026-08-08-dayofdata1144/
 
