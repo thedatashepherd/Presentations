@@ -1,0 +1,9 @@
+<fetch top="10">
+  <entity name="account">
+    <attribute name="accountid" />
+    <attribute name="name" />
+    <attribute name="createdon" />
+    <order attribute="name" />
+    <order attribute="accountid" />
+  </entity>
+</fetch>
