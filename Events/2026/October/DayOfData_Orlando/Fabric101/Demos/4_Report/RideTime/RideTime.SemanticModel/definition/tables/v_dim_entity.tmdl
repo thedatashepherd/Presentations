@@ -1,0 +1,92 @@
+table v_dim_entity
+	lineageTag: 2ca66b69-8123-4f91-b92a-891c9b9752c0
+
+	column entity_id
+		dataType: string
+		isHidden
+		lineageTag: 42989e6c-c77c-4d84-9e73-10c35460b7cc
+		summarizeBy: none
+		sourceColumn: entity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column entity_name
+		dataType: string
+		lineageTag: 3d6c9dac-985a-4d49-88f1-f85c2602c235
+		summarizeBy: none
+		sourceColumn: entity_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column entity_type
+		dataType: string
+		lineageTag: 3bb3700d-8804-48d6-8cae-81788fac6446
+		summarizeBy: none
+		sourceColumn: entity_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column destination
+		dataType: string
+		lineageTag: 9529cdf9-8a10-4335-bfba-548dfc0b3c20
+		summarizeBy: none
+		sourceColumn: destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column park_id
+		dataType: string
+		isHidden
+		lineageTag: 534d8769-fd14-4a76-a2ac-2fdd6d13101e
+		summarizeBy: none
+		sourceColumn: park_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column park_name
+		dataType: string
+		lineageTag: 29e91454-6ae7-417f-b6ce-31bd690e4807
+		summarizeBy: none
+		sourceColumn: park_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 54b63cf2-ce83-4bc0-b298-0b15487dbc98
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: ee0e25d3-4e21-4f55-83c8-2c48bcd45828
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column timezone
+		dataType: string
+		lineageTag: 0c2355ab-3e12-477c-823d-586168b75753
+		summarizeBy: none
+		sourceColumn: timezone
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_dim_entity = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("YOUR-SQL-ENDPOINT.datawarehouse.fabric.microsoft.com", "wh_the_queue"),
+				    dbo_v_dim_entity = Source{[Schema="dbo",Item="v_dim_entity"]}[Data]
+				in
+				    dbo_v_dim_entity
+

@@ -1,0 +1,21 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode","MCP-PBIModeling"]
+
+annotation PBI_QueryOrder = ["v_dim_entity","v_fact_wait_snapshot"]
+
+ref table v_dim_entity
+ref table v_fact_wait_snapshot
+ref table Date
+ref table 'Hour UTC'
+
+ref cultureInfo en-US
+

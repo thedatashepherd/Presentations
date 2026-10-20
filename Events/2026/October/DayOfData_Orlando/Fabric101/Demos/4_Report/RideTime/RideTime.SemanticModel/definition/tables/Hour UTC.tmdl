@@ -1,0 +1,20 @@
+/// UTC hour-of-day dimension. Not park-local time.
+table 'Hour UTC'
+	lineageTag: e0fe1e35-f2fc-4173-82e6-df993b539ff2
+
+	column Hour
+		lineageTag: f0cb6694-fe73-46fc-af9a-e993eefc25ac
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Hour]
+
+	column 'Hour Label'
+		lineageTag: 88fbec9f-4556-4d43-84ff-4929543204a9
+		isNameInferred
+		sourceColumn: [Hour Label]
+		sortByColumn: Hour
+
+	partition 'Hour UTC' = calculated
+		mode: import
+		source = SELECTCOLUMNS ( GENERATESERIES ( 0, 23, 1 ), "Hour", [Value], "Hour Label", FORMAT ( TIME ( [Value], 0, 0 ), "HH:mm" ) )
+

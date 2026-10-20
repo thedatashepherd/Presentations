@@ -1,0 +1,175 @@
+table v_fact_wait_snapshot
+	lineageTag: dc6136b0-6a25-4291-b4bd-80641f394ce3
+
+	/// Snapshot-row-weighted average of nonblank, nonnegative OPERATING waits. Zero is valid; missing waits are excluded. Not guest-weighted or time-weighted.
+	measure 'Average Wait (min)' = CALCULATE ( AVERAGE ( 'v_fact_wait_snapshot'[standby_wait_min] ), KEEPFILTERS ( 'v_fact_wait_snapshot'[status] = "OPERATING" ), KEEPFILTERS ( 'v_fact_wait_snapshot'[standby_wait_min] >= 0 ) )
+		formatString: 0.0
+		displayFolder: History
+		lineageTag: 8def8c7a-c3ad-48d9-a11f-2ab6157cbe2c
+
+	/// 90th percentile of valid operating wait observations, not individual guest waits.
+	measure 'P90 Wait (min)' = PERCENTILEX.INC ( FILTER ( 'v_fact_wait_snapshot', 'v_fact_wait_snapshot'[status] = "OPERATING" && NOT ISBLANK ( 'v_fact_wait_snapshot'[standby_wait_min] ) && 'v_fact_wait_snapshot'[standby_wait_min] >= 0 ), 'v_fact_wait_snapshot'[standby_wait_min], 0.9 )
+		formatString: 0.0
+		displayFolder: History
+		lineageTag: e0a1a60f-eef2-40e0-aae9-ffae03d9420a
+
+	measure 'Reported Wait Observations' = COUNTROWS ( FILTER ( 'v_fact_wait_snapshot', 'v_fact_wait_snapshot'[status] = "OPERATING" && NOT ISBLANK ( 'v_fact_wait_snapshot'[standby_wait_min] ) && 'v_fact_wait_snapshot'[standby_wait_min] >= 0 ) )
+		formatString: #,0
+		displayFolder: History
+		lineageTag: 14e48207-d8d7-4de2-b87f-d257d04a3376
+
+	measure 'Snapshot Observations' = COUNTROWS ( 'v_fact_wait_snapshot' )
+		formatString: #,0
+		displayFolder: History
+		lineageTag: 22530217-6f42-4bc8-8f58-1f518ae49e84
+
+	/// Share of collected rows marked OPERATING. Includes overnight closures in denominator; not scheduled-hours availability or duration-weighted uptime.
+	measure 'Operating Observation %' = DIVIDE ( CALCULATE ( COUNTROWS ( 'v_fact_wait_snapshot' ), KEEPFILTERS ( 'v_fact_wait_snapshot'[status] = "OPERATING" ) ), [Snapshot Observations] )
+		formatString: 0.0%
+		displayFolder: History
+		lineageTag: e087a244-5d36-4589-b391-d72dd600fa6c
+
+	/// Share of operating observations with a valid wait; helps distinguish missing values from zero.
+	measure 'Operating Wait Coverage %' = DIVIDE ( [Reported Wait Observations], CALCULATE ( COUNTROWS ( 'v_fact_wait_snapshot' ), KEEPFILTERS ( 'v_fact_wait_snapshot'[status] = "OPERATING" ) ) )
+		formatString: 0.0%
+		displayFolder: History
+		lineageTag: 8ae1e4f5-7cff-41e4-a453-84b33317adad
+
+	/// Global latest whole collection in the imported model; ignores all report filters. Not a live endpoint reading.
+	measure 'Latest Collection UTC' = CALCULATE ( MAX ( 'v_fact_wait_snapshot'[snapshot_utc] ), REMOVEFILTERS () )
+		formatString: yyyy-MM-dd HH:mm:ss
+		displayFolder: Latest Snapshot
+		lineageTag: cdb982e7-4ef5-47dc-8f3f-eef8b4deeaf1
+
+	/// Minutes since latest imported collection. Updates when the visual queries; Import mode requires data refresh.
+	measure 'Data Age (min)' = VAR LatestUTC = [Latest Collection UTC] RETURN IF ( NOT ISBLANK ( LatestUTC ), ( UTCNOW () - LatestUTC ) * 1440 )
+		formatString: #,0
+		displayFolder: Latest Snapshot
+		lineageTag: 906ff669-9630-446c-8991-3109d1c75539
+
+	measure 'Latest Average Wait (min)' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( [Average Wait (min)], REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'v_fact_wait_snapshot'[snapshot_utc] = LatestUTC )
+		formatString: 0.0
+		displayFolder: Latest Snapshot
+		lineageTag: f5840a38-dd14-46bb-9d42-9978e843f372
+
+	/// Attractions present in the latest whole collection, not every catalog attraction.
+	measure 'Latest Attractions' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( DISTINCTCOUNT ( 'v_fact_wait_snapshot'[entity_id] ), REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'v_fact_wait_snapshot'[snapshot_utc] = LatestUTC )
+		formatString: #,0
+		displayFolder: Latest Snapshot
+		lineageTag: 4887e841-8540-42bd-86fd-c2ad69d02669
+
+	measure 'Latest Operating Attractions' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( [Latest Attractions], KEEPFILTERS ( 'v_fact_wait_snapshot'[status] = "OPERATING" ) )
+		formatString: #,0
+		displayFolder: Latest Snapshot
+		lineageTag: ea676d0c-6588-4b9a-a20d-bdeabbfb9b42
+
+	measure 'Latest Down Attractions' = CALCULATE ( [Latest Attractions], KEEPFILTERS ( 'v_fact_wait_snapshot'[status] = "DOWN" ) )
+		formatString: #,0
+		displayFolder: Latest Snapshot
+		lineageTag: bb1a0dbf-731b-426f-bee3-4f49b23abefb
+
+	/// Wait for exactly one attraction at the latest collection, only if operating and reported. Totals intentionally blank.
+	measure 'Latest Wait (min)' = IF ( HASONEVALUE ( 'v_dim_entity'[entity_id] ), [Latest Average Wait (min)] )
+		formatString: 0
+		displayFolder: Latest Snapshot
+		lineageTag: ec78719a-a131-4acd-99d9-bdc06f00511d
+
+	measure 'Latest Status' = VAR LatestUTC = [Latest Collection UTC] RETURN IF ( HASONEVALUE ( 'v_dim_entity'[entity_id] ), CALCULATE ( SELECTEDVALUE ( 'v_fact_wait_snapshot'[status] ), REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'v_fact_wait_snapshot'[snapshot_utc] = LatestUTC ) )
+		displayFolder: Latest Snapshot
+		lineageTag: 5ef02bf1-f35c-4464-9f24-5d917e4fb052
+
+	measure 'Latest Wait Coverage %' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( [Operating Wait Coverage %], REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'v_fact_wait_snapshot'[snapshot_utc] = LatestUTC )
+		formatString: 0.0%
+		displayFolder: Latest Snapshot
+		lineageTag: f4c90ec1-9d27-4edd-9c3b-74af9997b56a
+
+	measure 'Overview Note' = "LATEST SNAPSHOT | UTC | Import mode: refresh to update. Blank wait = unavailable, not zero."
+		displayFolder: Report Labels
+		lineageTag: cf6f0593-5117-4846-bf5c-8b85dcb4afdc
+
+	measure 'History Note' = "WAIT PATTERNS | UTC | Operating rides only. Averages are observation-weighted; not park-local time."
+		displayFolder: Report Labels
+		lineageTag: 27008f2d-5baa-4f90-bc50-751f1c984b2b
+
+	column snapshot_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f1feaf28-2aeb-4792-b5a3-13c53440a556
+		summarizeBy: none
+		sourceColumn: snapshot_utc
+
+		annotation SummarizationSetBy = Automatic
+
+	column snapshot_date_utc
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: 99f41268-dafa-4a87-93b2-5f85f01a5c1e
+		summarizeBy: none
+		sourceColumn: snapshot_date_utc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column entity_id
+		dataType: string
+		isHidden
+		lineageTag: b81d870a-8ab9-4fd4-befe-05bdff77d596
+		summarizeBy: none
+		sourceColumn: entity_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column park_id
+		dataType: string
+		isHidden
+		lineageTag: 89339f1e-bb9f-4030-9f11-4af4e11b4e9b
+		summarizeBy: none
+		sourceColumn: park_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 3a8e0cf1-8213-471f-be6c-47d578123779
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Raw reported wait. Use operating-only explicit measures; never sum across snapshots.
+	column standby_wait_min
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: b845fdcc-a332-4713-a89e-7a07e76996b5
+		summarizeBy: none
+		sourceColumn: standby_wait_min
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updated_utc
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2020c39b-9caa-4b0e-9651-49ae47c62721
+		summarizeBy: none
+		sourceColumn: last_updated_utc
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Snapshot Hour UTC' = HOUR ( 'v_fact_wait_snapshot'[snapshot_utc] )
+		dataType: int64
+		isHidden
+		lineageTag: 7ccd6092-56df-40d2-a80a-83b6aebc1812
+		summarizeBy: none
+
+	partition v_fact_wait_snapshot = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("YOUR-SQL-ENDPOINT.datawarehouse.fabric.microsoft.com", "wh_the_queue"),
+				    dbo_v_fact_wait_snapshot = Source{[Schema="dbo",Item="v_fact_wait_snapshot"]}[Data]
+				in
+				    dbo_v_fact_wait_snapshot
+

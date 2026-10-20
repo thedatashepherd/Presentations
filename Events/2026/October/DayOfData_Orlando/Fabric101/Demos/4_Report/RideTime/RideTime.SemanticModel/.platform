@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "RideTime"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "4a8bb70a-58ff-47dd-adee-a689e0029805"
+  }
+}

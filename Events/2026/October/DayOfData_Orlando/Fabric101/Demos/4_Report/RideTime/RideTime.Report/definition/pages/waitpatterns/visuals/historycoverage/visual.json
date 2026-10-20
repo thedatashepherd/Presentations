@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "historycoverage",
+  "position": {
+    "x": 860,
+    "y": 180,
+    "z": 6,
+    "height": 90,
+    "width": 400,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "Operating Wait Coverage %"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.Operating Wait Coverage %"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

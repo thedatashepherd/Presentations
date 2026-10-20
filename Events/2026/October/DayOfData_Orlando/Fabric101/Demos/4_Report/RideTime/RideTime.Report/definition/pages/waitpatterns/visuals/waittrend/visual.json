@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "waittrend",
+  "position": {
+    "x": 20,
+    "y": 285,
+    "z": 7,
+    "height": 195,
+    "width": 750,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "snapshot_utc"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.snapshot_utc",
+              "active": true,
+              "displayName": "Collection time (UTC)"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "Average Wait (min)"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.Average Wait (min)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "P90 Wait (min)"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.P90 Wait (min)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "v_fact_wait_snapshot"
+                  }
+                },
+                "Property": "snapshot_utc"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Wait trend by collection | UTC'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "latestcoverage",
+  "position": {
+    "x": 950,
+    "y": 180,
+    "z": 8,
+    "height": 100,
+    "width": 310,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "Latest Wait Coverage %"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.Latest Wait Coverage %"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

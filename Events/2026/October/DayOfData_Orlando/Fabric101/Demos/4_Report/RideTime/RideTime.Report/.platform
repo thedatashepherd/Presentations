@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "RideTime"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ebd3ad05-7a49-40ea-b2a0-ebe0f26e8211"
+  }
+}

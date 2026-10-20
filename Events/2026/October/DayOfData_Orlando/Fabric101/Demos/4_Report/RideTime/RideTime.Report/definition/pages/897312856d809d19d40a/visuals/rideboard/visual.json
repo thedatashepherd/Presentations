@@ -1,0 +1,119 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "rideboard",
+  "position": {
+    "x": 20,
+    "y": 295,
+    "z": 9,
+    "height": 405,
+    "width": 750,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_dim_entity"
+                    }
+                  },
+                  "Property": "park_name"
+                }
+              },
+              "queryRef": "v_dim_entity.park_name",
+              "displayName": "Park"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_dim_entity"
+                    }
+                  },
+                  "Property": "entity_name"
+                }
+              },
+              "queryRef": "v_dim_entity.entity_name",
+              "displayName": "Attraction"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "Latest Status"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.Latest Status",
+              "displayName": "Status"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "Latest Wait (min)"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.Latest Wait (min)",
+              "displayName": "Wait (min)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "v_fact_wait_snapshot"
+                  }
+                },
+                "Property": "Latest Wait (min)"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Attraction board | latest collection'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

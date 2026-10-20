@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "historyp90",
+  "position": {
+    "x": 440,
+    "y": 180,
+    "z": 5,
+    "height": 90,
+    "width": 400,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "P90 Wait (min)"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.P90 Wait (min)"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

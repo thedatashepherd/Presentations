@@ -1,0 +1,12 @@
+relationship AutoDetected_cf76e6e7-b1de-490c-ab06-19196cbf5aaa
+	fromColumn: v_fact_wait_snapshot.entity_id
+	toColumn: v_dim_entity.entity_id
+
+relationship Snapshot_Date_UTC
+	fromColumn: v_fact_wait_snapshot.snapshot_date_utc
+	toColumn: Date.Date
+
+relationship Snapshot_Hour_UTC
+	fromColumn: v_fact_wait_snapshot.'Snapshot Hour UTC'
+	toColumn: 'Hour UTC'.Hour
+

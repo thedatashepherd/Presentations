@@ -1,0 +1,82 @@
+/// Continuous full-year UTC calendar, covering the years present in imported snapshots. Recalculated on refresh.
+table Date
+	lineageTag: 050b4349-bcf9-48d3-b4e1-f03011b511a0
+	dataCategory: Time
+
+	column Date
+		isUnique
+		isKey
+		isNullable: false
+		formatString: yyyy-MM-dd
+		lineageTag: 07a69dd0-2525-4d4f-b2fd-ccbf5724ca8b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Year
+		lineageTag: 7093d77f-39e1-4c41-989d-0f816b49266d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+	column Quarter
+		lineageTag: 9b2b6fe0-b26b-45ae-b01d-65935c525e3b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+	column 'Month Number'
+		isHidden
+		lineageTag: bf77ec9e-1e7c-4890-bc8a-75cdde4b4361
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Number]
+
+	column Month
+		lineageTag: 5d56a7fb-b42a-4998-8b17-c64d6dc64fc0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+	column 'Year Month'
+		lineageTag: 6d4e116c-540f-4590-870c-2a2582878658
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month]
+		sortByColumn: 'Year Month Sort'
+
+	column 'Year Month Sort'
+		isHidden
+		lineageTag: 605e2d3f-ceb6-4bd2-bc19-254bf0f4c09c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month Sort]
+
+	column 'Day of Week Number'
+		isHidden
+		lineageTag: b03e6c78-c870-4d7d-9fd9-1be43eb8cfec
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week Number]
+
+	column 'Day of Week'
+		lineageTag: e040f607-d52f-4af7-9903-923d230d526d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week]
+		sortByColumn: 'Day of Week Number'
+
+	column 'Is Weekend'
+		lineageTag: eee8255f-94ae-4d3c-88dd-73b01fbc769c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Is Weekend]
+
+	partition Date = calculated
+		mode: import
+		source =
+				VAR MinSnapshotDate = MIN ( 'v_fact_wait_snapshot'[snapshot_date_utc] )
+				VAR MaxSnapshotDate = MAX ( 'v_fact_wait_snapshot'[snapshot_date_utc] )
+				RETURN ADDCOLUMNS ( CALENDAR ( DATE ( YEAR ( MinSnapshotDate ), 1, 1 ), DATE ( YEAR ( MaxSnapshotDate ), 12, 31 ) ), "Year", YEAR ( [Date] ), "Quarter", "Q" & QUARTER ( [Date] ), "Month Number", MONTH ( [Date] ), "Month", FORMAT ( [Date], "MMM" ), "Year Month", FORMAT ( [Date], "yyyy-MM" ), "Year Month Sort", YEAR ( [Date] ) * 100 + MONTH ( [Date] ), "Day of Week Number", WEEKDAY ( [Date], 2 ), "Day of Week", FORMAT ( [Date], "ddd" ), "Is Weekend", WEEKDAY ( [Date], 2 ) >= 6 )
+

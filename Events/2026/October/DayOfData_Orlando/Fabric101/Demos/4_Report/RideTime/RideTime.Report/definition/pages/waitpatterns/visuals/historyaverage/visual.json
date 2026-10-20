@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "historyaverage",
+  "position": {
+    "x": 20,
+    "y": 180,
+    "z": 4,
+    "height": 90,
+    "width": 400,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "v_fact_wait_snapshot"
+                    }
+                  },
+                  "Property": "Average Wait (min)"
+                }
+              },
+              "queryRef": "v_fact_wait_snapshot.Average Wait (min)"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,447 @@
+createOrReplace
+
+	table dim_entity
+		sourceLineageTag: [dbo].[dim_entity]
+		lineageTag: 2ca66b69-8123-4f91-b92a-891c9b9752c0
+
+		column entity_id
+			dataType: string
+			isHidden
+			lineageTag: 42989e6c-c77c-4d84-9e73-10c35460b7cc
+			summarizeBy: none
+			sourceLineageTag: entity_id
+			sourceColumn: entity_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column entity_name
+			dataType: string
+			lineageTag: 3d6c9dac-985a-4d49-88f1-f85c2602c235
+			summarizeBy: none
+			sourceLineageTag: entity_name
+			sourceColumn: entity_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column entity_type
+			dataType: string
+			lineageTag: 3bb3700d-8804-48d6-8cae-81788fac6446
+			summarizeBy: none
+			sourceLineageTag: entity_type
+			sourceColumn: entity_type
+
+			annotation SummarizationSetBy = Automatic
+
+		column destination
+			dataType: string
+			lineageTag: 9529cdf9-8a10-4335-bfba-548dfc0b3c20
+			summarizeBy: none
+			sourceLineageTag: destination
+			sourceColumn: destination
+
+			annotation SummarizationSetBy = Automatic
+
+		column park_id
+			dataType: string
+			isHidden
+			lineageTag: 534d8769-fd14-4a76-a2ac-2fdd6d13101e
+			summarizeBy: none
+			sourceLineageTag: park_id
+			sourceColumn: park_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column park_name
+			dataType: string
+			lineageTag: 29e91454-6ae7-417f-b6ce-31bd690e4807
+			summarizeBy: none
+			sourceLineageTag: park_name
+			sourceColumn: park_name
+
+			annotation SummarizationSetBy = Automatic
+
+		column latitude
+			dataType: double
+			lineageTag: 54b63cf2-ce83-4bc0-b298-0b15487dbc98
+			dataCategory: Latitude
+			summarizeBy: none
+			sourceLineageTag: latitude
+			sourceColumn: latitude
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column longitude
+			dataType: double
+			lineageTag: ee0e25d3-4e21-4f55-83c8-2c48bcd45828
+			dataCategory: Longitude
+			summarizeBy: none
+			sourceLineageTag: longitude
+			sourceColumn: longitude
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column timezone
+			dataType: string
+			lineageTag: 0c2355ab-3e12-477c-823d-586168b75753
+			summarizeBy: none
+			sourceLineageTag: timezone
+			sourceColumn: timezone
+
+			annotation SummarizationSetBy = Automatic
+
+		partition dim_entity = entity
+			mode: directLake
+			source
+				entityName: dim_entity
+				schemaName: dbo
+				expressionSource: 'DirectLake - lh_the_queue'
+
+	table fact_wait_snapshot
+		sourceLineageTag: [dbo].[fact_wait_snapshot_reporting]
+		lineageTag: dc6136b0-6a25-4291-b4bd-80641f394ce3
+
+		/// Snapshot-row-weighted average of nonblank, nonnegative OPERATING waits. Zero is valid; missing waits are excluded. Not guest-weighted or time-weighted.
+		measure 'Average Wait (min)' = CALCULATE ( AVERAGE ( 'fact_wait_snapshot'[standby_wait_min] ), KEEPFILTERS ( 'fact_wait_snapshot'[status] = "OPERATING" ), KEEPFILTERS ( 'fact_wait_snapshot'[standby_wait_min] >= 0 ) )
+			formatString: 0.0
+			displayFolder: History
+			lineageTag: 8def8c7a-c3ad-48d9-a11f-2ab6157cbe2c
+
+		/// 90th percentile of valid operating wait observations, not individual guest waits.
+		measure 'P90 Wait (min)' = PERCENTILEX.INC ( FILTER ( 'fact_wait_snapshot', 'fact_wait_snapshot'[status] = "OPERATING" && NOT ISBLANK ( 'fact_wait_snapshot'[standby_wait_min] ) && 'fact_wait_snapshot'[standby_wait_min] >= 0 ), 'fact_wait_snapshot'[standby_wait_min], 0.9 )
+			formatString: 0.0
+			displayFolder: History
+			lineageTag: e0a1a60f-eef2-40e0-aae9-ffae03d9420a
+
+		measure 'Reported Wait Observations' = COUNTROWS ( FILTER ( 'fact_wait_snapshot', 'fact_wait_snapshot'[status] = "OPERATING" && NOT ISBLANK ( 'fact_wait_snapshot'[standby_wait_min] ) && 'fact_wait_snapshot'[standby_wait_min] >= 0 ) )
+			formatString: #,0
+			displayFolder: History
+			lineageTag: 14e48207-d8d7-4de2-b87f-d257d04a3376
+
+		measure 'Snapshot Observations' = COUNTROWS ( 'fact_wait_snapshot' )
+			formatString: #,0
+			displayFolder: History
+			lineageTag: 22530217-6f42-4bc8-8f58-1f518ae49e84
+
+		/// Share of collected rows marked OPERATING. Includes overnight closures in denominator; not scheduled-hours availability or duration-weighted uptime.
+		measure 'Operating Observation %' = DIVIDE ( CALCULATE ( COUNTROWS ( 'fact_wait_snapshot' ), KEEPFILTERS ( 'fact_wait_snapshot'[status] = "OPERATING" ) ), [Snapshot Observations] )
+			formatString: 0.0%
+			displayFolder: History
+			lineageTag: e087a244-5d36-4589-b391-d72dd600fa6c
+
+		/// Share of operating observations with a valid wait; helps distinguish missing values from zero.
+		measure 'Operating Wait Coverage %' = DIVIDE ( [Reported Wait Observations], CALCULATE ( COUNTROWS ( 'fact_wait_snapshot' ), KEEPFILTERS ( 'fact_wait_snapshot'[status] = "OPERATING" ) ) )
+			formatString: 0.0%
+			displayFolder: History
+			lineageTag: 8ae1e4f5-7cff-41e4-a453-84b33317adad
+
+		/// Global latest whole collection visible to the Direct Lake model; ignores all report filters. Uses the currently framed Delta table version.
+		measure 'Latest Collection UTC' = CALCULATE ( MAX ( 'fact_wait_snapshot'[snapshot_utc] ), REMOVEFILTERS () )
+			formatString: yyyy-MM-dd HH:mm:ss
+			displayFolder: Latest Snapshot
+			lineageTag: cdb982e7-4ef5-47dc-8f3f-eef8b4deeaf1
+
+		/// Minutes since latest visible collection. Updates when queried; refresh/framing exposes new Delta commits.
+		measure 'Data Age (min)' = VAR LatestUTC = [Latest Collection UTC] RETURN IF ( NOT ISBLANK ( LatestUTC ), ( UTCNOW () - LatestUTC ) * 1440 )
+			formatString: #,0
+			displayFolder: Latest Snapshot
+			lineageTag: 906ff669-9630-446c-8991-3109d1c75539
+
+		measure 'Latest Average Wait (min)' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( [Average Wait (min)], REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'fact_wait_snapshot'[snapshot_utc] = LatestUTC )
+			formatString: 0.0
+			displayFolder: Latest Snapshot
+			lineageTag: f5840a38-dd14-46bb-9d42-9978e843f372
+
+		/// Attractions present in the latest whole collection, not every catalog attraction.
+		measure 'Latest Attractions' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( DISTINCTCOUNT ( 'fact_wait_snapshot'[entity_id] ), REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'fact_wait_snapshot'[snapshot_utc] = LatestUTC )
+			formatString: #,0
+			displayFolder: Latest Snapshot
+			lineageTag: 4887e841-8540-42bd-86fd-c2ad69d02669
+
+		measure 'Latest Operating Attractions' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( [Latest Attractions], KEEPFILTERS ( 'fact_wait_snapshot'[status] = "OPERATING" ) )
+			formatString: #,0
+			displayFolder: Latest Snapshot
+			lineageTag: ea676d0c-6588-4b9a-a20d-bdeabbfb9b42
+
+		measure 'Latest Down Attractions' = CALCULATE ( [Latest Attractions], KEEPFILTERS ( 'fact_wait_snapshot'[status] = "DOWN" ) )
+			formatString: #,0
+			displayFolder: Latest Snapshot
+			lineageTag: bb1a0dbf-731b-426f-bee3-4f49b23abefb
+
+		/// Wait for exactly one attraction at the latest collection, only if operating and reported. Totals intentionally blank.
+		measure 'Latest Wait (min)' = IF ( HASONEVALUE ( 'dim_entity'[entity_id] ), [Latest Average Wait (min)] )
+			formatString: 0
+			displayFolder: Latest Snapshot
+			lineageTag: ec78719a-a131-4acd-99d9-bdc06f00511d
+
+		measure 'Latest Status' = VAR LatestUTC = [Latest Collection UTC] RETURN IF ( HASONEVALUE ( 'dim_entity'[entity_id] ), CALCULATE ( SELECTEDVALUE ( 'fact_wait_snapshot'[status] ), REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'fact_wait_snapshot'[snapshot_utc] = LatestUTC ) )
+			displayFolder: Latest Snapshot
+			lineageTag: 5ef02bf1-f35c-4464-9f24-5d917e4fb052
+
+		measure 'Latest Wait Coverage %' = VAR LatestUTC = [Latest Collection UTC] RETURN CALCULATE ( [Operating Wait Coverage %], REMOVEFILTERS ( 'Date' ), REMOVEFILTERS ( 'Hour UTC' ), 'fact_wait_snapshot'[snapshot_utc] = LatestUTC )
+			formatString: 0.0%
+			displayFolder: Latest Snapshot
+			lineageTag: f4c90ec1-9d27-4edd-9c3b-74af9997b56a
+
+		measure 'Overview Note' = "LATEST SNAPSHOT | UTC | Direct Lake: refresh/framing exposes Delta commits. Blank wait = unavailable, not zero."
+			displayFolder: Report Labels
+			lineageTag: cf6f0593-5117-4846-bf5c-8b85dcb4afdc
+
+		measure 'History Note' = "WAIT PATTERNS | UTC | Operating rides only. Averages are observation-weighted; not park-local time."
+			displayFolder: Report Labels
+			lineageTag: 27008f2d-5baa-4f90-bc50-751f1c984b2b
+
+		column snapshot_utc
+			dataType: dateTime
+			formatString: General Date
+			lineageTag: f1feaf28-2aeb-4792-b5a3-13c53440a556
+			summarizeBy: none
+			sourceLineageTag: snapshot_utc
+			sourceColumn: snapshot_utc
+
+			annotation SummarizationSetBy = Automatic
+
+		column snapshot_date_utc
+			dataType: dateTime
+			isHidden
+			formatString: Long Date
+			lineageTag: 99f41268-dafa-4a87-93b2-5f85f01a5c1e
+			summarizeBy: none
+			sourceLineageTag: snapshot_date_utc
+			sourceColumn: snapshot_date_utc
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column entity_id
+			dataType: string
+			isHidden
+			lineageTag: b81d870a-8ab9-4fd4-befe-05bdff77d596
+			summarizeBy: none
+			sourceLineageTag: entity_id
+			sourceColumn: entity_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column park_id
+			dataType: string
+			isHidden
+			lineageTag: 89339f1e-bb9f-4030-9f11-4af4e11b4e9b
+			summarizeBy: none
+			sourceLineageTag: park_id
+			sourceColumn: park_id
+
+			annotation SummarizationSetBy = Automatic
+
+		column status
+			dataType: string
+			lineageTag: 3a8e0cf1-8213-471f-be6c-47d578123779
+			summarizeBy: none
+			sourceLineageTag: status
+			sourceColumn: status
+
+			annotation SummarizationSetBy = Automatic
+
+		/// Raw reported wait. Use operating-only explicit measures; never sum across snapshots.
+		column standby_wait_min
+			dataType: int64
+			isHidden
+			formatString: 0
+			lineageTag: b845fdcc-a332-4713-a89e-7a07e76996b5
+			summarizeBy: none
+			sourceLineageTag: standby_wait_min
+			sourceColumn: standby_wait_min
+
+			annotation SummarizationSetBy = Automatic
+
+		column last_updated_utc
+			dataType: dateTime
+			formatString: General Date
+			lineageTag: 2020c39b-9caa-4b0e-9651-49ae47c62721
+			summarizeBy: none
+			sourceLineageTag: last_updated_utc
+			sourceColumn: last_updated_utc
+
+			annotation SummarizationSetBy = Automatic
+
+		column 'Snapshot Hour UTC'
+			dataType: int64
+			isHidden
+			lineageTag: 7ccd6092-56df-40d2-a80a-83b6aebc1812
+			summarizeBy: none
+			sourceLineageTag: snapshot_hour_utc
+			sourceColumn: snapshot_hour_utc
+
+			changedProperty = Name
+
+		partition fact_wait_snapshot = entity
+			mode: directLake
+			source
+				entityName: fact_wait_snapshot_reporting
+				schemaName: dbo
+				expressionSource: 'DirectLake - lh_the_queue'
+
+		changedProperty = Name
+
+	/// Continuous full-year UTC calendar, materialized in Delta for the years present in snapshots.
+	table Date
+		sourceLineageTag: [dbo].[dim_date_utc]
+		lineageTag: 050b4349-bcf9-48d3-b4e1-f03011b511a0
+		dataCategory: Time
+
+		column Date
+			dataType: dateTime
+			isUnique
+			isKey
+			isNullable: false
+			formatString: yyyy-MM-dd
+			lineageTag: 07a69dd0-2525-4d4f-b2fd-ccbf5724ca8b
+			summarizeBy: none
+			sourceLineageTag: date
+			sourceColumn: date
+
+			changedProperty = Name
+
+		column Year
+			dataType: int64
+			lineageTag: 7093d77f-39e1-4c41-989d-0f816b49266d
+			summarizeBy: none
+			sourceLineageTag: year
+			sourceColumn: year
+
+			changedProperty = Name
+
+		column Quarter
+			dataType: string
+			lineageTag: 9b2b6fe0-b26b-45ae-b01d-65935c525e3b
+			summarizeBy: none
+			sourceLineageTag: quarter
+			sourceColumn: quarter
+
+			changedProperty = Name
+
+		column 'Month Number'
+			dataType: int64
+			isHidden
+			lineageTag: bf77ec9e-1e7c-4890-bc8a-75cdde4b4361
+			summarizeBy: none
+			sourceLineageTag: month_number
+			sourceColumn: month_number
+
+			changedProperty = Name
+
+		column Month
+			dataType: string
+			lineageTag: 5d56a7fb-b42a-4998-8b17-c64d6dc64fc0
+			summarizeBy: none
+			sourceLineageTag: month
+			sourceColumn: month
+			sortByColumn: 'Month Number'
+
+			changedProperty = Name
+
+		column 'Year Month'
+			dataType: string
+			lineageTag: 6d4e116c-540f-4590-870c-2a2582878658
+			summarizeBy: none
+			sourceLineageTag: year_month
+			sourceColumn: year_month
+			sortByColumn: 'Year Month Sort'
+
+			changedProperty = Name
+
+		column 'Year Month Sort'
+			dataType: int64
+			isHidden
+			lineageTag: 605e2d3f-ceb6-4bd2-bc19-254bf0f4c09c
+			summarizeBy: none
+			sourceLineageTag: year_month_sort
+			sourceColumn: year_month_sort
+
+			changedProperty = Name
+
+		column 'Day of Week Number'
+			dataType: int64
+			isHidden
+			lineageTag: b03e6c78-c870-4d7d-9fd9-1be43eb8cfec
+			summarizeBy: none
+			sourceLineageTag: day_of_week_number
+			sourceColumn: day_of_week_number
+
+			changedProperty = Name
+
+		column 'Day of Week'
+			dataType: string
+			lineageTag: e040f607-d52f-4af7-9903-923d230d526d
+			summarizeBy: none
+			sourceLineageTag: day_of_week
+			sourceColumn: day_of_week
+			sortByColumn: 'Day of Week Number'
+
+			changedProperty = Name
+
+		column 'Is Weekend'
+			dataType: boolean
+			lineageTag: eee8255f-94ae-4d3c-88dd-73b01fbc769c
+			summarizeBy: none
+			sourceLineageTag: is_weekend
+			sourceColumn: is_weekend
+
+			changedProperty = Name
+
+		partition Date = entity
+			mode: directLake
+			source
+				entityName: dim_date_utc
+				schemaName: dbo
+				expressionSource: 'DirectLake - lh_the_queue'
+
+		changedProperty = Name
+
+	/// UTC hour-of-day dimension. Not park-local time.
+	table 'Hour UTC'
+		sourceLineageTag: [dbo].[dim_hour_utc]
+		lineageTag: e0fe1e35-f2fc-4173-82e6-df993b539ff2
+
+		column Hour
+			dataType: int64
+			lineageTag: f0cb6694-fe73-46fc-af9a-e993eefc25ac
+			summarizeBy: none
+			sourceLineageTag: hour
+			sourceColumn: hour
+
+			changedProperty = Name
+
+		column 'Hour Label'
+			dataType: string
+			lineageTag: 88fbec9f-4556-4d43-84ff-4929543204a9
+			sourceLineageTag: hour_label
+			sourceColumn: hour_label
+			sortByColumn: Hour
+
+			changedProperty = Name
+
+		partition 'Hour UTC' = entity
+			mode: directLake
+			source
+				entityName: dim_hour_utc
+				schemaName: dbo
+				expressionSource: 'DirectLake - lh_the_queue'
+
+		changedProperty = Name
+
+	relationship AutoDetected_cf76e6e7-b1de-490c-ab06-19196cbf5aaa
+		fromColumn: fact_wait_snapshot.entity_id
+		toColumn: dim_entity.entity_id
+	
+	relationship Snapshot_Date_UTC
+		fromColumn: fact_wait_snapshot.snapshot_date_utc
+		toColumn: Date.Date
+	
+	relationship Snapshot_Hour_UTC
+		fromColumn: fact_wait_snapshot.'Snapshot Hour UTC'
+		toColumn: 'Hour UTC'.Hour
