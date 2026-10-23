@@ -1,2 +1,7 @@
 # Claude Code local instructions - not for repo
 CLAUDE.md
+
+# Publish attendee PDFs; keep editable slide decks private.
+*.pptx
+*.ppt
+*.pptm

@@ -39,5 +39,5 @@ No notebook needed. Use the files in `data`:
 ## Notes
 
 - All dates and hours are **UTC**. Averages are per observation, and "operating" counts include overnight closures — it is not uptime.
-- Notebooks contain no saved output and no presenter Lakehouse bindings; attach your own after import.
+- Attach your own Lakehouse to each notebook after import.
 - Park and wait-time data in `data` and from the collector comes from [ThemeParks.wiki](https://themeparks.wiki), via their public API. It is shared here for learning only; credit ThemeParks.wiki if you reuse it.
