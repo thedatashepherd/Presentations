@@ -2,6 +2,11 @@
 
 Jason Romans · Day of Data Seattle · November 12, 2026 · Seattle, WA
 
-Session materials will be added after the event. Slides and attendee resources are not available yet.
+## Session resources
+
+- **Slides:** Coming soon.
+- **Demos:** Coming soon.
+
+This folder is reserved for the session materials. Slides and demo files will be added here as they become available.
 
 [More presentations](https://slides.datashepherd.dev/)
