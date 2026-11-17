@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.tools/
+exports/
+ducklake/
+source-data/flights/*.parquet*
+source-data/flights/flights_*.csv*
+__pycache__/
+*.pyc
+*.duckdb*

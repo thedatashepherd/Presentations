@@ -16,7 +16,7 @@ Slides and demo files from my conference and user group sessions on **Microsoft 
 
 | Date | Event | Location | Session | Slides | Demos |
 |------|-------|----------|---------|--------|-------|
-| Nov 12, 2026 | Day of Data Seattle 2026 | Seattle, WA | Postgres as a Lakehouse Catalog: Getting Started with DuckLake | After the event | To be confirmed |
+| Nov 12, 2026 | Day of Data Seattle 2026 | Seattle, WA | Postgres as a Lakehouse Catalog: Getting Started with DuckLake | [Slides (PDF)](Events/2026/November/DayOfData_Seattle/DuckLake/Seattle_DayofData2026_DuckLake.pdf) | [Demos](Events/2026/November/DayOfData_Seattle/DuckLake/Demos) |
 | Nov 7, 2026 | Day of Data PNW 2026 | Vancouver, WA | The Data Detective’s Toolkit: Diagnose, Monitor, and Fix with Semantic Link Labs | [Slides (PDF)](Events/2026/November/DayOfData_PNW/DataDetectiveToolkit/PNW2026_DataDetectiveToolkit.pdf) | [Demos](Events/2026/November/DayOfData_PNW/DataDetectiveToolkit/Demos) |
 | Oct 2026 | Jax Data User Group | Jacksonville, FL | Not Every Notebook Needs Spark | [📄 PDF](Events/2026/October/JaxDataUserGroup/NotEveryNotebookNeedsSpark/JaxDataUserGroup2026_NotEveryNotebookNeedsSpark.pdf) | [💻 Files](Events/2026/October/JaxDataUserGroup/NotEveryNotebookNeedsSpark/Demos) |
 | Oct 2026 | Day of Data Orlando 2026 | Sanford, FL | Fabric 101: Your Park Map to Microsoft Fabric | [📄 PDF](https://github.com/thedatashepherd/Presentations/blob/main/Events/2026/October/DayOfData_Orlando/Fabric101/Orlando_DayofData2026_Fabric101.pdf) | [💻 Files](https://github.com/thedatashepherd/Presentations/tree/main/Events/2026/October/DayOfData_Orlando/Fabric101/Demos) |
